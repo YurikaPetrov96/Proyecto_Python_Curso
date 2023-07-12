@@ -41,10 +41,11 @@ class Usuario: # clase usuario inicializada, y con metodos estaticos.
             "hashed_password": hashed_password
         }
         use_json.save_data(data)
+        print("Datos Guardados")
       
     @staticmethod
     def autentificar_usuario():
-        use_json.load_data()  #ingresa datos antes de realizar la autentificacion
+        data = use_json.load_data()  #ingresa datos antes de realizar la autentificacion
         username = username_entry.get()
         password = password_entry.get()
         if username in data:
@@ -59,13 +60,11 @@ class Usuario: # clase usuario inicializada, y con metodos estaticos.
 class Local:
     def __init__(self):
         pass
-    
-data = use_json.load_data()
-use_json.load_data()
 
 root = Tk()
 root.title("Tour Musical")
 root.geometry("1280x720+10+10")
+root.iconbitmap("src/music.ico")
 sv_ttk.use_dark_theme()
 
 registro_label = ttk.Label(root, text="Registrese por favor: ")
