@@ -1,6 +1,5 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
-import sv_ttk
 import json
 import hashlib
 
@@ -31,8 +30,8 @@ class Usuario: # clase usuario inicializada, y con metodos estaticos.
     
     @staticmethod
     def registrar_usuario():
-        username = username_entry.get()
-        password = password_entry.get()
+        username = app.frame.username_entry.get()
+        password = app.frame.password_entry.get()
         salt = "random_salt"
         hashed_password = Usuario.hash_password(password, salt)
         data = use_json.load_data()
@@ -46,8 +45,8 @@ class Usuario: # clase usuario inicializada, y con metodos estaticos.
     @staticmethod
     def autentificar_usuario():
         data = use_json.load_data()  #ingresa datos antes de realizar la autentificacion
-        username = username_entry.get()
-        password = password_entry.get()
+        username = app.frame.username_entry.get()
+        password = app.frame.password_entry.get()
         if username in data:
             user_data = data[username]
             hashed_password = Usuario.hash_password(password, user_data["salt"])
@@ -57,33 +56,49 @@ class Usuario: # clase usuario inicializada, y con metodos estaticos.
         print("Autentificacion Fracasada.")
         return False
 
-class Local:
-    def __init__(self):
-        pass
+class Main_frame(tk.Frame):
+    """
+    Main Frame of this program.
+    """
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        registro_label = ttk.Label(self, text="Registrese por favor: ")
+        registro_label.grid(row=0, column=0, padx=10, pady=10)
 
-root = Tk()
-root.title("Tour Musical")
-root.geometry("1280x720+10+10")
-root.iconbitmap("src/music.ico")
-sv_ttk.use_dark_theme()
+        self.username_label = ttk.Label(self, text="Ingrese su nombre de Usuario: ")
+        self.username_label.grid(row=1, column=0, padx=10, pady=10)
+        self.username_entry = ttk.Entry(self)
+        self.username_entry.grid(row=1, column=1, padx=10, pady=10)
 
-registro_label = ttk.Label(root, text="Registrese por favor: ")
-registro_label.grid(row=0, column=0, padx=10, pady=10)
+        self.password_label = ttk.Label(self, text="Ingrese su contraseña: ")
+        self.password_label.grid(row=2, column=0, padx=10, pady=10)
+        self.password_entry = ttk.Entry(self, show="*")
+        self.password_entry.grid(row=2, column=1, padx=10, pady=10)
 
-username_label = ttk.Label(root, text="Ingrese su nombre de Usuario: ")
-username_label.grid(row=1, column=0, padx=10, pady=10)
-username_entry = ttk.Entry(root)
-username_entry.grid(row=1, column=1, padx=10, pady=10)
+        add_button = ttk.Button(self, text="Registrarse", command=Usuario.registrar_usuario)
+        add_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-password_label = ttk.Label(root, text="Ingrese su contraseña: ")
-password_label.grid(row=2, column=0, padx=10, pady=10)
-password_entry = ttk.Entry(root, show="*")
-password_entry.grid(row=2, column=1, padx=10, pady=10)
+        authenticate_button = ttk.Button(self, text="Autenticar", command=Usuario.autentificar_usuario)
+        authenticate_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
-add_button = ttk.Button(root, text="Registrarse", command=Usuario.registrar_usuario)
-add_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-authenticate_button = ttk.Button(root, text="Autenticar", command=Usuario.autentificar_usuario)
-authenticate_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+class Registro():
+    pass
 
-root.mainloop()
+
+class Application(tk.Tk):
+    """Main window for the application"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.title("App Proyecto Cimne")
+        self.geometry("800x600")
+        self.iconbitmap("src/music.ico")
+        self.frame = Main_frame(self)
+        self.frame.pack()
+
+
+if __name__ == "__main__":
+    app = Application()
+    # frame = Main_frame(app)
+    # frame.pack()
+    app.mainloop()
