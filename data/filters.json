@@ -1,0 +1,26 @@
+{
+    "restaurantes": [
+      {
+        "tipo": "regional",
+        "ingredientes": ["carne de vaca", "choclo", "porotos"],
+        "precios": [100, 200, 300],
+        "calificacion": 4.5,
+        "eventos": true
+      },
+      {
+        "tipo": "oriental",
+        "ingredientes": ["arroz", "salsa de soja", "brotes de soja"],
+        "precios": [200, 300, 400],
+        "calificacion": 4.2,
+        "eventos": false
+      },
+      {
+        "tipo": "hindú",
+        "ingredientes": ["semillas", "especias", "frutos secos"],
+        "precios": [150, 250, 350],
+        "calificacion": 4.7,
+        "eventos": true
+      }
+    ]
+  }
+  
