@@ -69,7 +69,6 @@ for evento in resultados_nombre:
     print("Artista:", evento.artista)
     print("Ubicación:", evento.ubicacion)
     print("Horario:", evento.horario)
-    print()
 
 resultados_genero = buscador.por_genero("Rock")
 print("Resultados de búsqueda por género:")
@@ -79,7 +78,6 @@ for evento in resultados_genero:
     print("Artista:", evento.artista)
     print("Ubicación:", evento.ubicacion)
     print("Horario:", evento.horario)
-    print()
 
 resultados_artista = buscador.por_artista("Banda A")
 print("Resultados de búsqueda por artista:")
@@ -89,7 +87,6 @@ for evento in resultados_artista:
     print("Artista:", evento.artista)
     print("Ubicación:", evento.ubicacion)
     print("Horario:", evento.horario)
-    print()
 
 resultados_ubicacion = buscador.filtro_ubicacion("Ciudad B")
 print("Resultados de filtrado por ubicación:")
@@ -99,7 +96,6 @@ for evento in resultados_ubicacion:
     print("Artista:", evento.artista)
     print("Ubicación:", evento.ubicacion)
     print("Horario:", evento.horario)
-    print()
 
 resultados_horario = buscador.filtro_horario("19:30")
 print("Resultados de filtrado por horario:")
@@ -109,4 +105,3 @@ for evento in resultados_horario:
     print("Artista:", evento.artista)
     print("Ubicación:", evento.ubicacion)
     print("Horario:", evento.horario)
-    print()
