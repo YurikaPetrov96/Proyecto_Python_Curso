@@ -1,99 +1,112 @@
 import json
 
 class Buscador:
-    def __init__(self, tipo, ingredientes, precios, calificacion, eventos):
-        self.tipo = tipo
-        self.ingredientes = ingredientes
-        self.precios = precios
-        self.calificacion = calificacion
-        self.eventos = eventos
+    def __init__(self, nombre, genero, artista, ubicacion, horario):
+        self.nombre = nombre
+        self.genero = genero
+        self.artista = artista
+        self.ubicacion = ubicacion
+        self.horario = horario
 
 class Filtros:
-    def __init__(self, destinos):
-        self.destinos = destinos
-    
-    def por_tipo(self, tipo):
+    def __init__(self, eventos):
+        self.eventos = eventos
+
+    def por_nombre(self, nombre):
         resultados = []
-        for destino in self.destinos:
-            if destino.tipo == tipo:
-                resultados.append(destino)
-        return resultados
-    
-    def por_ingredientes(self, ingredientes):
-        resultados = []
-        for destino in self.destinos:
-            if all(ingrediente in destino.ingredientes for ingrediente in ingredientes):
-                resultados.append(destino)
-        return resultados
-    
-    def por_precio(self, min_precio=0, max_precio=float('inf')):
-        resultados = []
-        for destino in self.destinos:
-            if min_precio <= min(destino.precios) <= max_precio:
-                resultados.append(destino)
-        return resultados
-    
-    def por_calificacion(self, min_calificacion=0):
-        resultados = []
-        for destino in self.destinos:
-            if destino.calificacion >= min_calificacion:
-                resultados.append(destino)
-        return resultados
-    
-    def por_eventos(self, extra=True):
-        resultados = []
-        for destino in self.destinos:
-            if destino.eventos == extra:
-                resultados.append(resultados)
+        for evento in self.eventos:
+            if evento.nombre.lower() == nombre.lower():
+                resultados.append(evento)
         return resultados
 
-def inicializar_buscador(ruta_json):
-    with open("data/filters.json", 'r') as file:
-        datos = json.load(file)
+    def por_genero(self, genero):
+        resultados = []
+        for evento in self.eventos:
+            if evento.genero.lower() == genero.lower():
+                resultados.append(evento)
+        return resultados
 
-    destinos = []
-    for restaurante in datos["restaurantes"]:
-        destino = Buscador(restaurante["tipo"],
-                                   restaurante["ingredientes"],
-                                   restaurante["precios"],
-                                   restaurante["calificacion"],
-                                   restaurante["eventos"])
-        destinos.append(destino)
+    def por_artista(self, artista):
+        resultados = []
+        for evento in self.eventos:
+            if evento.artista.lower() == artista.lower():
+                resultados.append(evento)
+        return resultados
 
-    filtros = Filtros(destinos)
-    return filtros
+    def filtro_ubicacion(self, ubicacion):
+        resultados = []
+        for evento in self.eventos:
+            if evento.ubicacion.lower() == ubicacion.lower():
+                resultados.append(evento)
+        return resultados
 
-# Prueba del buscador
-def ejecutar_buscador():
-    ruta_json = r"c:\Users\HP\Desktop\prueba app jorge\buscador\data.json"
-    filtros = inicializar_buscador(ruta_json)
+    def filtro_horario(self, horario):
+        resultados = []
+        for evento in self.eventos:
+            if evento.horario == horario:
+                resultados.append(evento)
+        return resultados
+    
+def cargar_eventos_json(filters):
+    eventos = []
+    with open(filters, 'r') as archivo:
+        datos_eventos = json.load(archivo)
+        for datos_evento in datos_eventos:
+            evento = Buscador(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'], datos_evento['ubicacion'], datos_evento['horario'])
+            eventos.append(evento)
+    return eventos
 
-    resultados_tipo = filtros.por_tipo("regional")
-    resultados_ingredientes = filtros.por_ingredientes(["arroz"])
-    resultados_precio = filtros.por_precio(300)
-    resultados_calificacion = filtros.por_calificacion(4.7)
-    resultados_eventos = filtros.por_eventos(True)
+#Ejemplo de uso:
 
-    print("Resultados del filtro por tipo:")
-    for resultado in resultados_tipo:
-        print(f"Tipo: {resultado.tipo}")
+eventos = cargar_eventos_json('filters.json')
+buscador = Filtros(eventos)
 
-    print("Resultados del filtro por ingredientes:")
-    for resultado in resultados_ingredientes:
-        print(f"Ingredientes: {', '.join(resultado.ingredientes)}")
+resultados_nombre = buscador.por_nombre("Concierto A")
+print("Resultados de búsqueda por nombre:")
+for evento in resultados_nombre:
+    print("Nombre:", evento.nombre)
+    print("Género:", evento.genero)
+    print("Artista:", evento.artista)
+    print("Ubicación:", evento.ubicacion)
+    print("Horario:", evento.horario)
+    print()
 
-    print("Resultados del filtro por precio:")
-    for resultado in resultados_precio:
-        print(f"Precios: {', '.join(map(str, resultado.precios))}")
+resultados_genero = buscador.por_genero("Rock")
+print("Resultados de búsqueda por género:")
+for evento in resultados_genero:
+    print("Nombre:", evento.nombre)
+    print("Género:", evento.genero)
+    print("Artista:", evento.artista)
+    print("Ubicación:", evento.ubicacion)
+    print("Horario:", evento.horario)
+    print()
 
-    print("Resultados del filtro por calificación:")
-    for resultado in resultados_calificacion:
-        print(f"Calificación: {resultado.calificacion}")
+resultados_artista = buscador.por_artista("Banda A")
+print("Resultados de búsqueda por artista:")
+for evento in resultados_artista:
+    print("Nombre:", evento.nombre)
+    print("Género:", evento.genero)
+    print("Artista:", evento.artista)
+    print("Ubicación:", evento.ubicacion)
+    print("Horario:", evento.horario)
+    print()
 
-    print("Resultados del filtro por eventos:")
-    for resultado in resultados_eventos:
-        print(f"Evento: {resultado.eventos}")
+resultados_ubicacion = buscador.filtro_ubicacion("Ciudad B")
+print("Resultados de filtrado por ubicación:")
+for evento in resultados_ubicacion:
+    print("Nombre:", evento.nombre)
+    print("Género:", evento.genero)
+    print("Artista:", evento.artista)
+    print("Ubicación:", evento.ubicacion)
+    print("Horario:", evento.horario)
+    print()
 
-# Ejecutar el buscador
-ejecutar_buscador()
-
+resultados_horario = buscador.filtro_horario("19:30")
+print("Resultados de filtrado por horario:")
+for evento in resultados_horario:
+    print("Nombre:", evento.nombre)
+    print("Género:", evento.genero)
+    print("Artista:", evento.artista)
+    print("Ubicación:", evento.ubicacion)
+    print("Horario:", evento.horario)
+    print()
