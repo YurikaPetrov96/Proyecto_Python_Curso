@@ -58,7 +58,7 @@ class Registro(customtkinter.CTkFrame):
     
     def go_back_start(self):
         """Function to go back to start_page"""
-        lambda: self.switch_frame("Start_page")
+        self.switch_frame("Start_page")
             
             
 class InputError(Exception):
@@ -68,4 +68,4 @@ class InputError(Exception):
         msg  -- explanation of the error
     """
     def __init__(self, msg):
-        pass
+        super().__init__(msg)
