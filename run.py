@@ -121,6 +121,4 @@ class Application(tk.Tk):
 
 if __name__ == "__main__":
     app = Application()
-    # frame = Main_frame(app)
-    # frame.pack()
     app.mainloop()
