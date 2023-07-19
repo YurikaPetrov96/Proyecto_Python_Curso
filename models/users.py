@@ -1,28 +1,29 @@
 import json
 import hashlib
-import uuid
+
 
 class db():
     """access to database"""
     @staticmethod
     def save_data(data):
-        with open("data/users.json", "w") as file:
+        with open("data/users.json", "w", encoding="utf-8") as file:
             json.dump(data, file)
     
     @staticmethod
     def load_data():
         try:
-            with open("data/users.json", "r") as file:
+            with open("data/users.json", "r", encoding="utf-8") as file:
                 return json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             return {}
 
 class Usuario():
-    def __init__(self, username, password, email):
+    user_count = 0
+    def __init__(self, username, password, email=None):
         self.username = username
         self.password = password
         self.email = email
-        self.unique_id = str(uuid.uuid4())
+        self.user_id = Usuario.generate_user_id()
     
     @staticmethod
     def hash_password(password, salt):
@@ -30,12 +31,19 @@ class Usuario():
         hash_object.update(password.encode('utf-8') + salt.encode('utf-8'))
         return hash_object.hexdigest()
     
+    @classmethod
+    def generate_user_id(cls):
+        cls.user_count+=1
+        return cls.user_count
+            
     def registrar_usuario(self, *args):
+        if self.email is None:
+            raise InputError("El email es necesario para registrarse.")
         salt = "random_salt"
         hashed_password = Usuario.hash_password(self.password, salt)
         email = self.email
         data = db.load_data()
-        data[self.unique_id] = {
+        data[str(self.user_id)] = {
             "username": self.username,
             "salt": salt,
             "hashed_password": hashed_password,
@@ -45,16 +53,16 @@ class Usuario():
         print("Datos Guardados")
         
         
-    def autentificar_usuario(self, *args):
-        data = db.load_data()  #ingresa datos antes de realizar la autentificacion
-        if self.username in data:
-            user_data = data[self.username]
-            hashed_password = Usuario.hash_password(self.password, user_data["salt"])
-            if hashed_password == user_data["hashed_password"]:
-                print("Autentificacion Permitida")
-                return True
-        print("Autentificacion Fracasada.")
-        return False
+    def autentificar_usuario(self):
+        data = db.load_data()  # Load data before performing authentication
+        for user_id, user_data in data.items():
+            if user_data["username"] == self.username:
+                hashed_password = Usuario.hash_password(self.password, user_data["salt"])
+                if hashed_password == user_data["hashed_password"]:
+                    return True
+                else:
+                    return False  # The password is incorrect.
+        return False  # The user was not found in the data.
 
 
 ## validate user inforamtion before summiting to login or register
