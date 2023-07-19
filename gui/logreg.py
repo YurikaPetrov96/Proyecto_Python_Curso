@@ -9,7 +9,6 @@ class Login_register(customtkinter.CTkFrame):
         customtkinter.CTkFrame.__init__(self, parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback ## si o si tiene que estar en los Frame, porque esta en la app principal
         
-        
         bienvenida_label = customtkinter.CTkLabel(self, text= "Iniciar Sesion o Registrarse.")
         bienvenida_label.grid(row=0, column=4, padx=0, pady=0)
         
@@ -31,6 +30,7 @@ class Login_register(customtkinter.CTkFrame):
         registro_button.grid(row=3, column=2, padx=5, pady=5)
         authenticate_button = customtkinter.CTkButton(self, text="Iniciar Sesion", command=self.validacion_log)
         authenticate_button.grid(row=3, column=4, padx=5, pady=5)
+        
     
     def validacion_log(self):
         username = self.username_entry.get().strip()

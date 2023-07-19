@@ -78,32 +78,29 @@ class Verificacion():
     
     def username_check(self, username):
         try:
-            if len(username) < 4: 
-                user_g_msg = "Su usuario es Valido"
-                return user_g_msg
+            if len(username) >= 4:
+                print("Usuario valido")
+                return True
             else:
-                user_b_msg = "Su usario es invalido"
-                return user_b_msg
+                return False
         except:
             ValueError
                 
     def password_check(self, password):
         try:
             if len(password) >= 6 and has_numbers(password):
-                pass_msg = "La contraseñalen() es valida."
-                return pass_msg, 
+                return True
             else:
-                raise InputError("La contraseña ingresada no cumple con las condiciones necesarias.")
+                return False
         except ValueError:
             print("Se ingresaron caracteres incorrectos.")
                 
     def email_check(self, email):
         try:
             if has_simbols(email):
-                email_msg = "El email es correcto."
-                return email_msg
+                return True
             else:
-                raise InputError("El email no cumple con las condiciones necesarias.")
+                return False
         except ValueError:
             print("Se ingresaron caracteres incorrectos.")
 
