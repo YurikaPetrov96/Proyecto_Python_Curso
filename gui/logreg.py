@@ -68,10 +68,11 @@ class Login_register(customtkinter.CTkFrame):
             self.go_back()
     
     def go_home_page(self):
-        """Function to go back to start_page"""
+        """Function to go to home_page when the login is successfull"""
         self.switch_frame_callback("Home_page")
         
     def go_back(self):
+        """Function to go back to start_page"""
         self.switch_frame_callback("Start_page")
             
             
