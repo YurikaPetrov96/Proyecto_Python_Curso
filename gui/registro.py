@@ -4,8 +4,9 @@ from models.users import Usuario
 from models.users import Verificacion
 
 class Registro(customtkinter.CTkFrame):
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, switch_frame_callback, *args, **kwargs):
         customtkinter.CTkFrame.__init__(self, parent, *args, **kwargs)
+        self.switch_frame_callback = switch_frame_callback
         
         #labels
         label0 = customtkinter.CTkLabel(self, text="Por favor ingrese los datos del formulario: ")
@@ -28,7 +29,7 @@ class Registro(customtkinter.CTkFrame):
         #botones
         final_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: self.verificar_registro())
         final_button.grid(row=4, column=10, columnspan=2, padx=1, pady=1)
-        cancel_button = customtkinter.CTkButton(self, text="Cancerlar", command=lambda: parent.switch_frame("Start_page"))
+        cancel_button = customtkinter.CTkButton(self, text="Cancerlar", command= self.go_back_start)
         cancel_button.grid(row=4, column=12, columnspan=2, padx=1, pady=1)
         
     def verificar_registro(self):
@@ -58,7 +59,7 @@ class Registro(customtkinter.CTkFrame):
     
     def go_back_start(self):
         """Function to go back to start_page"""
-        self.switch_frame("Start_page")
+        self.switch_frame_callback("Start_page")
             
             
 class InputError(Exception):

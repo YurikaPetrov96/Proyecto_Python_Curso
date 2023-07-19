@@ -43,9 +43,18 @@ class Usuario():
         }
         db.save_data(data)
         print("Datos Guardados")
-
-
-
+        
+        
+    def autentificar_usuario(self, *args):
+        data = db.load_data()  #ingresa datos antes de realizar la autentificacion
+        if self.username in data:
+            user_data = data[self.username]
+            hashed_password = Usuario.hash_password(self.password, user_data["salt"])
+            if hashed_password == user_data["hashed_password"]:
+                print("Autentificacion Permitida")
+                return True
+        print("Autentificacion Fracasada.")
+        return False
 
 
 ## validate user inforamtion before summiting to login or register
