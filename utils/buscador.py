@@ -47,9 +47,9 @@ class Filtros:
                 resultados.append(evento)
         return resultados
     
-def cargar_eventos_json(filters):
+def cargar_eventos_json():
     eventos = []
-    with open(filters, 'r') as archivo:
+    with open('data/filters.json', 'r', encoding = "utf-8") as archivo:
         datos_eventos = json.load(archivo)
         for datos_evento in datos_eventos:
             evento = Buscador(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'], datos_evento['ubicacion'], datos_evento['horario'])
@@ -58,7 +58,7 @@ def cargar_eventos_json(filters):
 
 #Ejemplo de uso:
 
-eventos = cargar_eventos_json('filters.json')
+eventos = cargar_eventos_json()
 buscador = Filtros(eventos)
 
 resultados_nombre = buscador.por_nombre("Concierto A")
