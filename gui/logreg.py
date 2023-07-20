@@ -1,6 +1,7 @@
 import customtkinter
 from CTkMessagebox import CTkMessagebox
 from models.users import Usuario
+from models.users import Verificacion
    
 ## 1
 class Login_register(customtkinter.CTkFrame):
@@ -9,27 +10,39 @@ class Login_register(customtkinter.CTkFrame):
         customtkinter.CTkFrame.__init__(self, parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback ## si o si tiene que estar en los Frame, porque esta en la app principal
         
-        bienvenida_label = customtkinter.CTkLabel(self, text= "Iniciar Sesion o Registrarse.")
-        bienvenida_label.grid(row=0, column=4, padx=0, pady=0)
+        
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+        self.grid_rowconfigure(2, weight=0)
+        self.grid_rowconfigure(3, weight=0)
+        self.grid_rowconfigure(4, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=2)
+        self.grid_columnconfigure(2, weight=2)
+        self.grid_columnconfigure(3, weight=1)
+        
+        
         
         #labels
-        username_label = customtkinter.CTkLabel(self, text= "Usuario:")
-        username_label.grid(row=1, column=2, padx=5, pady=5)
-        contrasena_label = customtkinter.CTkLabel(self, text= "Contraseña:")
-        contrasena_label.grid(row=2, column=2, padx=5, pady=5)
+        bienvenida_label = customtkinter.CTkLabel(self, text= "Inicie Sesion o Registrese: ", font=("Roboto",16))
+        bienvenida_label.grid(row=0, column=1, columnspan=2, padx=5, pady=5, sticky="s")
+        username_label = customtkinter.CTkLabel(self, text= "Usuario:", font=("Roboto",14))
+        username_label.grid(row=1, column=1, padx=5, pady=5, sticky="e")
+        contrasena_label = customtkinter.CTkLabel(self, text= "Contraseña:", font=("Roboto",14))
+        contrasena_label.grid(row=2, column=1, padx=5, pady=5, sticky="e")
         
         #entries
         self.username_entry = customtkinter.CTkEntry(self)
-        self.username_entry.grid(row=1, column=4, padx=5, pady=5)
+        self.username_entry.grid(row=1, column=2, padx=5, pady=5, sticky="w")
         self.contrasena_entry = customtkinter.CTkEntry(self, show= "*")
-        self.contrasena_entry.grid(row=2, column= 4, padx=5, pady=5)
+        self.contrasena_entry.grid(row=2, column= 2, padx=5, pady=5, sticky="nw")
         
         #botones
         
-        registro_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: parent.switch_frame("Registry_page"))
-        registro_button.grid(row=3, column=2, padx=5, pady=5)
-        authenticate_button = customtkinter.CTkButton(self, text="Iniciar Sesion", command=self.validacion_log)
-        authenticate_button.grid(row=3, column=4, padx=5, pady=5)
+        registro_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: parent.switch_frame("Registry_page"), font=("Roboto",14))
+        registro_button.grid(row=3, column=1, padx=5, pady=5, sticky="ne")
+        authenticate_button = customtkinter.CTkButton(self, text="Iniciar Sesion", command=self.validacion_log, font=("Roboto",14))
+        authenticate_button.grid(row=3, column=2, padx=5, pady=5, sticky="nw")
         
     
     def validacion_log(self):
@@ -38,14 +51,17 @@ class Login_register(customtkinter.CTkFrame):
         
         try:
             # Si la información es valida, se procedera a registrar al usuario
-            authentification_result = Usuario(username, password).autentificar_usuario()
-            # si todo funcionó correctamente, veremos un mensaje de Login efectivo y abrira home
-            if authentification_result is True:
-                self.show_good_messages()
-            elif authentification_result is False:
-                self.show_failed()
-            else:
+            
+            if Verificacion.username_check1(self, username) is True:
                 self.show_user_not_found_msg()
+            else:
+                authentification_result = Usuario(username, password).autentificar_usuario()
+                # si todo funcionó correctamente, veremos un mensaje de Login efectivo y abrira home
+                if authentification_result is True:
+                    self.show_good_messages()
+                else:
+                    self.show_failed()
+                
         except InputError as e:
             print(e)
             

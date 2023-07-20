@@ -8,29 +8,40 @@ class Registro(customtkinter.CTkFrame):
         customtkinter.CTkFrame.__init__(self, parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback
         
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+        self.grid_rowconfigure(2, weight=0)
+        self.grid_rowconfigure(3, weight=0)
+        self.grid_rowconfigure(4, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=2)
+        self.grid_columnconfigure(2, weight=2)
+        self.grid_columnconfigure(3, weight=1)
+        
+        
         #labels
-        label0 = customtkinter.CTkLabel(self, text="Por favor ingrese los datos del formulario: ")
-        label0.grid(row=0, column=0, columnspan = 3, padx=10, pady= 10)
-        label1 = customtkinter.CTkLabel(self, text="Usuario: ")
-        label1.grid(row=1, column=0, padx=5, pady=5)
-        label2 = customtkinter.CTkLabel(self, text="Contraseña: ")
-        label2.grid(row=2, column=0, padx=5, pady=5)
-        label3 = customtkinter.CTkLabel(self, text="Email: ")
-        label3.grid(row=3, column=0, padx=5, pady=5)
+        label0 = customtkinter.CTkLabel(self, text="Por favor ingrese los datos del formulario: ", font=("Roboto",16))
+        label0.grid(row=0, column=1, columnspan=2, padx=5, pady= 5, sticky="s")
+        label1 = customtkinter.CTkLabel(self, text="Nombre de Usuario: ", font=("Roboto",14))
+        label1.grid(row=1, column=1, padx=5, pady=5, sticky= "e", ipadx=17)
+        label2 = customtkinter.CTkLabel(self, text="Contraseña: ", font=("Roboto",14))
+        label2.grid(row=2, column=1, padx=5, pady=5, sticky="ne", ipadx=17)
+        label3 = customtkinter.CTkLabel(self, text="Correo Electronico: ", font=("Roboto",14))
+        label3.grid(row=3, column=1, padx=5, pady=5, sticky="ne", ipadx=17)
         
         #entries
         self.entry1=customtkinter.CTkEntry(self)
-        self.entry1.grid(row=1, column=1, padx=5, pady=5)
+        self.entry1.grid(row=1, column=2, padx=5, pady=5, sticky="w")
         self.entry2=customtkinter.CTkEntry(self, show="*")
-        self.entry2.grid(row=2, column=1, padx=5, pady=5)
+        self.entry2.grid(row=2, column=2, padx=5, pady=5, sticky="nw")
         self.entry3=customtkinter.CTkEntry(self)
-        self.entry3.grid(row=3, column=1, padx=5, pady=5)
+        self.entry3.grid(row=3, column=2, padx=5, pady=5, sticky="nw")
         
         #botones
-        final_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: self.verificar_registro())
-        final_button.grid(row=4, column=10, columnspan=2, padx=1, pady=1)
-        cancel_button = customtkinter.CTkButton(self, text="Cancerlar", command=lambda: self.switch_frame_callback("Start_page"))
-        cancel_button.grid(row=4, column=12, columnspan=2, padx=1, pady=1)
+        final_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: self.verificar_registro(), font=("Roboto",14))
+        final_button.grid(row=4, column=1, padx=1, pady=1, sticky="ne", ipadx=4)
+        cancel_button = customtkinter.CTkButton(self, text="Cancerlar", command=lambda: self.switch_frame_callback("Start_page"), font=("Roboto",14))
+        cancel_button.grid(row=4, column=2, padx=1, pady=1, sticky="nw", ipadx=3)
         
     def verificar_registro(self):
         username = self.entry1.get()
@@ -45,7 +56,7 @@ class Registro(customtkinter.CTkFrame):
             pass_check = verifier.password_check(password)
             email_check = verifier.email_check(email)
             
-            if user_check1 is False:
+            if user_check1 is True:
                 self.Boxes.username_used(self)
             elif user_check2 is False:
                 self.Boxes.user_check_box(self)

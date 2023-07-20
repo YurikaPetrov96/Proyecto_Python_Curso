@@ -35,7 +35,7 @@ class Usuario():
     
     @classmethod
     def generate_user_id(cls): #generamos el user id.
-        data = db.load_data() # caragamos la base de datos
+        data = db.load_data() #caragamos la base de datos
         if data:
             max_user_id = max(map(int, data.keys())) #si en la db hay una key numeral la pasamos a int para realizarle una suma.
             return str(max_user_id + 1)
@@ -87,10 +87,10 @@ class Verificacion():
         try:
             data = db.load_data()
             for user_id, user_data in data.items():
-                if user_data["username"] == username:
-                    return False
-                else:
+                if username == user_data["username"]:
                     return True
+            
+            return False    
         except ValueError:
             print("Error.")
     
