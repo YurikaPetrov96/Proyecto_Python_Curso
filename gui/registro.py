@@ -40,11 +40,14 @@ class Registro(customtkinter.CTkFrame):
         # Validamos la información de usuario.
         try:
             verifier = Verificacion()
-            user_check = verifier.username_check(username)
+            user_check1 = verifier.username_check1(username)
+            user_check2 = verifier.username_check2(username)
             pass_check = verifier.password_check(password)
-            email_check =verifier.email_check(email)
+            email_check = verifier.email_check(email)
             
-            if user_check is False:
+            if user_check1 is False:
+                self.Boxes.username_used(self)
+            elif user_check2 is False:
                 self.Boxes.user_check_box(self)
             elif pass_check is False:
                 self.Boxes.user_pass_box(self)
@@ -86,7 +89,13 @@ class Registro(customtkinter.CTkFrame):
             msg = CTkMessagebox(title="Email invalido", message="Ingrese un email valido.", option_1="OK")
             response = msg.get()
             if response =="OK":
-                msg.destroy()           
+                msg.destroy()          
+        
+        def username_used(self):
+            msg = CTkMessagebox(title="Usuario ya registrado.", message="El nombre de usuario ya fue registrado, por favor intente con otro nombre de usuario.", option_1="OK")
+            response = msg.get()
+            if response =="OK":
+                msg.destroy()   
             
 class InputError(Exception):
     """Raised when user input is incorrect

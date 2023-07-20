@@ -1,11 +1,14 @@
 import json
 import hashlib
+import re
 
 
 class db():
     """access to database"""
     @staticmethod
     def save_data(data):
+        current_data = db.load_data()
+        current_data.update(data)
         with open("data/users.json", "w", encoding="utf-8") as file:
             json.dump(data, file)
     
@@ -18,7 +21,6 @@ class db():
             return {}
 
 class Usuario():
-    user_count = 0
     def __init__(self, username, password, email=None):
         self.username = username
         self.password = password
@@ -32,11 +34,15 @@ class Usuario():
         return hash_object.hexdigest()
     
     @classmethod
-    def generate_user_id(cls):
-        cls.user_count+=1
-        return cls.user_count
+    def generate_user_id(cls): #generamos el user id.
+        data = db.load_data() # caragamos la base de datos
+        if data:
+            max_user_id = max(map(int, data.keys())) #si en la db hay una key numeral la pasamos a int para realizarle una suma.
+            return str(max_user_id + 1)
+        else:
+            return "1"#si no existe data usamos esto.
             
-    def registrar_usuario(self, *args):
+    def registrar_usuario(self):
         if self.email is None:
             raise InputError("El email es necesario para registrarse.")
         salt = "random_salt"
@@ -71,12 +77,24 @@ def has_numbers(foo):
     return any(char.isdigit() for char in foo)
 
 def has_simbols(foo):
-    return any(char == "@" for char in foo)
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return bool(re.match(email_pattern, foo))
 
 class Verificacion():
     """validacion del usuario"""
     
-    def username_check(self, username):
+    def username_check1(self, username):
+        try:
+            data = db.load_data()
+            for user_id, user_data in data.items():
+                if user_data["username"] == username:
+                    return False
+                else:
+                    return True
+        except ValueError:
+            print("Error.")
+    
+    def username_check2(self, username):
         try:
             if len(username) >= 4:
                 print("Usuario valido")
