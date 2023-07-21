@@ -1,4 +1,5 @@
 import customtkinter
+from CTkMessagebox import CTkMessagebox
 
 class Home(customtkinter.CTkFrame):
     def __init__(self, parent, switch_frame_callback, *args, **kwargs):
@@ -9,6 +10,8 @@ class Home(customtkinter.CTkFrame):
             self.grid_rowconfigure(i, weight=0)
             self.grid_columnconfigure(i, weight=0)
         
+        
+        button1 = customtkinter.CTkButton(self, text="")
         
         
         
