@@ -53,15 +53,15 @@ class Login_register(customtkinter.CTkFrame):
             # Si la información es valida, se procedera a registrar al usuario
             
             if Verificacion.username_check1(self, username) is True:
-                self.show_user_not_found_msg()
-            else:
+                
                 authentification_result = Usuario(username, password).autentificar_usuario()
                 # si todo funcionó correctamente, veremos un mensaje de Login efectivo y abrira home
                 if authentification_result is True:
                     self.show_good_messages()
                 else:
                     self.show_failed()
-                
+            else:
+                self.show_user_not_found_msg()
         except InputError as e:
             print(e)
             
