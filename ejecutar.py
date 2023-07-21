@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
         
         #definimos el tamaño y configuración
         self.title("Music Tour")
-        self.iconbitmap("music.ico")
+        self.iconbitmap("src/music.ico")
         self._set_appearance_mode("System")
         window_width = 800
         window_height = 600
