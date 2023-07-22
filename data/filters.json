@@ -1,31 +1,20 @@
 [
-    {
-      "nombre": "Concierto A",
+  {
+      "nombre": "Evento 1",
       "genero": "Rock",
-      "artista": "Banda A",
-      "ubicacion": "Ciudad A",
-      "horario": "20:00"
-    },
-    {
-      "nombre": "Festival B",
+      "artista": "Artista 1",
+      "ubicacion": "Lugar 1"
+  },
+  {
+      "nombre": "Evento 2",
+      "genero": "Folclore",
+      "artista": "Artista 2",
+      "ubicacion": "Lugar 2"
+  },
+  {
+      "nombre": "Evento 3",
       "genero": "Pop",
-      "artista": "Artista B",
-      "ubicacion": "Ciudad B",
-      "horario": "19:30"
-    },
-    {
-      "nombre": "Concierto C",
-      "genero": "Rock",
-      "artista": "Banda A",
-      "ubicacion": "Ciudad C",
-      "horario": "21:00"
-    },
-    {
-      "nombre": "Festival D",
-      "genero": "Electrónica",
-      "artista": "DJ X",
-      "ubicacion": "Ciudad B",
-      "horario": "22:30"
-    }
-  ]
-  
+      "artista": "Artista 3",
+      "ubicacion": "Lugar 1"
+  }
+]

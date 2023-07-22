@@ -1,107 +1,59 @@
 import json
 
 class Buscador:
-    def __init__(self, nombre, genero, artista, ubicacion, horario):
+    def __init__(self, nombre, genero, artista, ubicacion):
         self.nombre = nombre
         self.genero = genero
         self.artista = artista
         self.ubicacion = ubicacion
-        self.horario = horario
+
+    def __str__(self):
+        return f"Nombre: {self.nombre}, Género: {self.genero}, Artista: {self.artista}, Ubicación: {self.ubicacion}"
 
 class Filtros:
-    def __init__(self, eventos):
-        self.eventos = eventos
+    def __init__(self, filters): #cambiar por el archivo creado por indice
+        self.eventos = self.cargar_eventos_json(filters) #cambiar por el archivo creado por indice
+
+    def cargar_eventos_json(self, filters): #cambiar por el archivo creado por indice 
+        eventos = []
+        with open('data/filters.json', 'r', encoding="utf-8") as archivo: #cambiar por el archivo creado por indice 
+            datos_eventos = json.load(archivo)
+            for datos_evento in datos_eventos:
+                evento = Buscador(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'], datos_evento['ubicacion'])
+                eventos.append(evento)
+        return eventos
+    
+    def filtrar_atributo(self, atributo, valor):
+        resultados = []
+        for evento in self.eventos:
+            if getattr(evento, atributo).lower() == valor.lower():
+                resultados.append(evento)
+        if resultados:
+            for evento in resultados:
+                print(evento)
+        return resultados
 
     def por_nombre(self, nombre):
-        resultados = []
-        for evento in self.eventos:
-            if evento.nombre.lower() == nombre.lower():
-                resultados.append(evento)
-        return resultados
+        return self.filtrar_atributo("nombre", nombre)
+
 
     def por_genero(self, genero):
-        resultados = []
-        for evento in self.eventos:
-            if evento.genero.lower() == genero.lower():
-                resultados.append(evento)
-        return resultados
+        return self.filtrar_atributo("genero", genero)
 
     def por_artista(self, artista):
-        resultados = []
-        for evento in self.eventos:
-            if evento.artista.lower() == artista.lower():
-                resultados.append(evento)
-        return resultados
+        return self.filtrar_atributo("artista", artista)
 
-    def filtro_ubicacion(self, ubicacion):
-        resultados = []
-        for evento in self.eventos:
-            if evento.ubicacion.lower() == ubicacion.lower():
-                resultados.append(evento)
-        return resultados
-
-    def filtro_horario(self, horario):
-        resultados = []
-        for evento in self.eventos:
-            if evento.horario == horario:
-                resultados.append(evento)
-        return resultados
+    def por_ubicacion(self, ubicacion):
+        return self.filtrar_atributo("ubicacion", ubicacion)
     
-def cargar_eventos_json():
-    eventos = []
-    with open('data/filters.json', 'r', encoding = "utf-8") as archivo:
-        datos_eventos = json.load(archivo)
-        for datos_evento in datos_eventos:
-            evento = Buscador(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'], datos_evento['ubicacion'], datos_evento['horario'])
-            eventos.append(evento)
-    return eventos
-
 #Ejemplo de uso:
 
-eventos = cargar_eventos_json()
-buscador = Filtros(eventos)
+buscar = Filtros('data/filters.json') #cambiar por el archivo creado por indice
 
-resultados_nombre = buscador.por_nombre("Concierto A")
-print("Resultados de búsqueda por nombre:")
-for evento in resultados_nombre:
-    print("Nombre:", evento.nombre)
-    print("Género:", evento.genero)
-    print("Artista:", evento.artista)
-    print("Ubicación:", evento.ubicacion)
-    print("Horario:", evento.horario)
+resultados_nombre = buscar.por_nombre("Evento 1")
 
-resultados_genero = buscador.por_genero("Rock")
-print("Resultados de búsqueda por género:")
-for evento in resultados_genero:
-    print("Nombre:", evento.nombre)
-    print("Género:", evento.genero)
-    print("Artista:", evento.artista)
-    print("Ubicación:", evento.ubicacion)
-    print("Horario:", evento.horario)
+resultados_genero = buscar.por_genero("Pop")
 
-resultados_artista = buscador.por_artista("Banda A")
-print("Resultados de búsqueda por artista:")
-for evento in resultados_artista:
-    print("Nombre:", evento.nombre)
-    print("Género:", evento.genero)
-    print("Artista:", evento.artista)
-    print("Ubicación:", evento.ubicacion)
-    print("Horario:", evento.horario)
+resultados_artista = buscar.por_artista("Artista 3")
 
-resultados_ubicacion = buscador.filtro_ubicacion("Ciudad B")
-print("Resultados de filtrado por ubicación:")
-for evento in resultados_ubicacion:
-    print("Nombre:", evento.nombre)
-    print("Género:", evento.genero)
-    print("Artista:", evento.artista)
-    print("Ubicación:", evento.ubicacion)
-    print("Horario:", evento.horario)
-
-resultados_horario = buscador.filtro_horario("19:30")
-print("Resultados de filtrado por horario:")
-for evento in resultados_horario:
-    print("Nombre:", evento.nombre)
-    print("Género:", evento.genero)
-    print("Artista:", evento.artista)
-    print("Ubicación:", evento.ubicacion)
-    print("Horario:", evento.horario)
+resultados_ubicacion = buscar.por_ubicacion("Lugar 2")
