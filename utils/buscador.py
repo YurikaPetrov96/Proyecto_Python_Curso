@@ -1,27 +1,27 @@
 import json
 
-class Buscador:
-    def __init__(self, nombre, genero, artista, ubicacion):
+
+class loader():
+    def cargar_eventos_json(self): #cambiar por el archivo creado por indice 
+        eventos = []
+        with open('data/eventos.json', 'r', encoding="utf-8") as archivo: #cambiar por el archivo creado por indice 
+            for datos_evento in archivo.items():
+                evento = Searcher(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'])
+                eventos.append(evento)
+        return eventos
+
+class Searcher:
+    def buscador(self, nombre, genero, artista):
         self.nombre = nombre
         self.genero = genero
         self.artista = artista
-        self.ubicacion = ubicacion
-
-    def __str__(self):
-        return f"Nombre: {self.nombre}, Género: {self.genero}, Artista: {self.artista}, Ubicación: {self.ubicacion}"
+    
+    
 
 class Filtros:
-    def __init__(self, filters): #cambiar por el archivo creado por indice
-        self.eventos = self.cargar_eventos_json(filters) #cambiar por el archivo creado por indice
+    def __init__(self,): #cambiar por el archivo creado por indice
+        self.eventos = self.cargar_eventos_json() #cambiar por el archivo creado por indice
 
-    def cargar_eventos_json(self, filters): #cambiar por el archivo creado por indice 
-        eventos = []
-        with open('data/filters.json', 'r', encoding="utf-8") as archivo: #cambiar por el archivo creado por indice 
-            datos_eventos = json.load(archivo)
-            for datos_evento in datos_eventos:
-                evento = Buscador(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'], datos_evento['ubicacion'])
-                eventos.append(evento)
-        return eventos
     
     def filtrar_atributo(self, atributo, valor):
         resultados = []

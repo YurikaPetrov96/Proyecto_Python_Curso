@@ -1,20 +1,24 @@
-[
+{"1":
     {
         "nombre": "Evento 1",
         "genero": "Rock",
         "artista": "Artista 1",
         "ubicacion": "Lugar 1"
-    },
+    }
+},
+{"2":
     {
         "nombre": "Evento 2",
         "genero": "Folclore",
         "artista": "Artista 2",
         "ubicacion": "Lugar 2"
-    },
+    }
+},
+{"3":
     {
         "nombre": "Evento 3",
         "genero": "Pop",
         "artista": "Artista 3",
         "ubicacion": "Lugar 1"
     }
-  ]
+}

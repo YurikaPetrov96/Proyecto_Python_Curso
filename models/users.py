@@ -21,9 +21,11 @@ class db():
             return {}
 
 class Usuario():
-    def __init__(self, username, password, email=None):
+    def __init__(self, username, password, apellido= None, nombre=None, email=None):
         self.username = username
         self.password = password
+        self.apellido = apellido
+        self.nombre = nombre
         self.email = email
         self.user_id = Usuario.generate_user_id()
     
@@ -110,6 +112,26 @@ class Verificacion():
                 return True
             else:
                 return False
+        except ValueError:
+            print("Se ingresaron caracteres incorrectos.")
+            
+    def apellido_check(self, apellido):
+        """chequeo del apellido"""
+        try:
+            if apellido == None:
+                return False
+            else:
+                return True
+        except ValueError:
+            print("Se ingresaron caracteres incorrectos.")
+    
+    def nombre_check(self, nombre):
+        """chequeo de nombre"""
+        try:
+            if nombre == None:
+                return False
+            else:
+                return True
         except ValueError:
             print("Se ingresaron caracteres incorrectos.")
                 
