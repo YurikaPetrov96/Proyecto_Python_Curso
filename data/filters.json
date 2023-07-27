@@ -1,20 +1,23 @@
 [
-  {
-      "nombre": "Evento 1",
-      "genero": "Rock",
-      "artista": "Artista 1",
-      "ubicacion": "Lugar 1"
-  },
-  {
-      "nombre": "Evento 2",
-      "genero": "Folclore",
-      "artista": "Artista 2",
-      "ubicacion": "Lugar 2"
-  },
-  {
-      "nombre": "Evento 3",
-      "genero": "Pop",
-      "artista": "Artista 3",
-      "ubicacion": "Lugar 1"
-  }
-]
+    {
+        "nombre": "Evento 1",
+        "genero": "Rock",
+        "artista": "Artista 1",
+        "ubicacion": "Lugar 1",
+        "horario": ["00:00", "03:00"]
+    },
+    {
+        "nombre": "Evento 2",
+        "genero": "Folclore",
+        "artista": "Artista 2",
+        "ubicacion": "Lugar 2",
+        "horario": ["18:00", "22:00"]
+    },
+    {
+        "nombre": "Evento 3",
+        "genero": "Pop",
+        "artista": "Artista 3",
+        "ubicacion": "Lugar 1",
+        "horario": ["12:00", "16:00"]
+    }
+  ]
