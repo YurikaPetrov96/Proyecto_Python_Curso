@@ -23,32 +23,7 @@ class Search_gui(customtkinter.CTkFrame):
         self.switch_frame_callback = switch_frame_callback
         from utils import buscador
 
-        flts = buscador.Filtros('data/filters.json')
-
-        # Ventana emergente
-        ventana_buscador = customtkinter.CTkToplevel()
-        ventana_buscador.title("Buscador")
-        ventana_buscador.geometry("600x600")
-        
-        #Botones de filtro
-        boton_filtrar_nombre = customtkinter.CTkButton(ventana_buscador, text="Filtrar por Nombre", command=flts.por_nombre)
-        boton_filtrar_nombre.pack(padx=10, pady=5)
-
-        boton_filtrar_genero = customtkinter.CTkButton(ventana_buscador, text="Filtrar por Genero", command=flts.por_genero)
-        boton_filtrar_genero.pack(padx=10, pady=5)
-
-        boton_filtrar_artista = customtkinter.CTkButton(ventana_buscador, text="Filtrar por Artista", command=flts.por_artista)
-        boton_filtrar_artista.pack(padx=10, pady=5)
-
-        boton_filtrar_ubicacion = customtkinter.CTkButton(ventana_buscador, text="Filtrar por Ubicacion", command=flts.por_ubicacion)
-        boton_filtrar_ubicacion.pack(padx=10, pady=5)
-
-        boton_filtrar_horario = customtkinter.CTkButton(ventana_buscador, text="Filtrar por Horario", command=flts.por_horario)
-        boton_filtrar_horario.pack(padx=10, pady=5)
-        
-        
-        
-        label = customtkinter.CTkLabel(self, text="Hola gente soy el buscador", font=("ROBOTO", 16))
+        label = customtkinter.CTkLabel(self, font=("ROBOTO", 16), comand=ventana_buscador)
         label.pack(padx=20, pady=20)
 
 # pages = {

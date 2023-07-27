@@ -1,3 +1,0 @@
-class Teste():
-    pass
-#probando
