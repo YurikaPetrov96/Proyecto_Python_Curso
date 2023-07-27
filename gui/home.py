@@ -21,10 +21,46 @@ class Search_gui(customtkinter.CTkFrame):
     def __init__(self, Frame, switch_frame_callback, *args, **kwargs):
         super().__init__(Frame, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback
-        from utils import buscador
+        #from utils import buscador
 
         label = customtkinter.CTkLabel(self, font=("ROBOTO", 16), comand=ventana_buscador)
         label.pack(padx=20, pady=20)
+ 
+ # Ventana emergente
+ventana_buscador = customtkinter.CTkToplevel()
+ventana_buscador.title("Buscador")
+ventana_buscador.geometry("600x600")
+
+class ScrollableRadiobuttonFrame(customtkinter.CTkScrollableFrame):
+    def __init__(self, master, item_list, command=None, **kwargs):
+        super().__init__(master, **kwargs)
+
+        self.command = command
+        self.radiobutton_variable = customtkinter.StringVar()
+        self.radiobutton_list = []
+        for i, item in enumerate(item_list):
+            self.add_item(item)
+
+    def add_item(self, item):
+        radiobutton = customtkinter.CTkRadioButton(
+            self, text=item, value=item, variable=self.radiobutton_variable
+        )
+        if self.command is not None:
+            radiobutton.configure(command=self.command)
+        radiobutton.grid(row=len(self.radiobutton_list), column=0, pady=(0, 10))
+        self.radiobutton_list.append(radiobutton)
+
+    def remove_item(self, item):
+        for radiobutton in self.radiobutton_list:
+            if item == radiobutton.cget("text"):
+                radiobutton.destroy()
+                self.radiobutton_list.remove(radiobutton)
+                return
+
+    def get_checked_item(self):
+        return self.radiobutton_variable.get()
+    
+   
 
 # pages = {
 #     "Indice":Indice,
