@@ -1,1 +1,1 @@
-{"1": {"username": "yuripetrov", "salt": "random_salt", "hashed_password": "4c18bb12606c54b03d8eccb765216a20a6ee33f2a341877113ed6e5327d753d4", "email": "yuri@yuri.com"}, "2": {"username": "admin", "salt": "random_salt", "hashed_password": "4c18bb12606c54b03d8eccb765216a20a6ee33f2a341877113ed6e5327d753d4", "email": "admin@admin.com"}}
+{"1": {"username": "yuripetrov", "salt": "random_salt", "hashed_password": "4c18bb12606c54b03d8eccb765216a20a6ee33f2a341877113ed6e5327d753d4", "email": "yuri@yuri.com"}}
