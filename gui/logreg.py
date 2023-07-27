@@ -22,7 +22,6 @@ class Login_register(customtkinter.CTkFrame):
         self.grid_columnconfigure(3, weight=1)
         
         
-        
         #labels
         bienvenida_label = customtkinter.CTkLabel(self, text= "Inicie Sesion o Registrese: ", font=("Roboto",16))
         bienvenida_label.grid(row=0, column=1, columnspan=2, padx=5, pady=5, sticky="s")
