@@ -1,14 +1,16 @@
 import json
 
+
 class Buscador:
-    def __init__(self, nombre, genero, artista, ubicacion):
+    def __init__(self, nombre, genero, artista, ubicacion, horario):
         self.nombre = nombre
         self.genero = genero
         self.artista = artista
         self.ubicacion = ubicacion
+        self.horario = horario
 
     def __str__(self):
-        return f"Nombre: {self.nombre}, Género: {self.genero}, Artista: {self.artista}, Ubicación: {self.ubicacion}"
+        return f"Nombre: {self.nombre}, Género: {self.genero}, Artista: {self.artista}, Ubicación: {self.ubicacion}, Horario: {self.horario}"
 
 class Filtros:
     def __init__(self, filters): #cambiar por el archivo creado por indice
@@ -19,14 +21,14 @@ class Filtros:
         with open('data/filters.json', 'r', encoding="utf-8") as archivo: #cambiar por el archivo creado por indice 
             datos_eventos = json.load(archivo)
             for datos_evento in datos_eventos:
-                evento = Buscador(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'], datos_evento['ubicacion'])
+                evento = Buscador(datos_evento['nombre'], datos_evento['genero'], datos_evento['artista'], datos_evento['ubicacion'], datos_evento['horario'])
                 eventos.append(evento)
         return eventos
     
     def filtrar_atributo(self, atributo, valor):
         resultados = []
         for evento in self.eventos:
-            if getattr(evento, atributo).lower() == valor.lower():
+            if getattr(evento, atributo) == valor:
                 resultados.append(evento)
         if resultados:
             for evento in resultados:
@@ -46,6 +48,9 @@ class Filtros:
     def por_ubicacion(self, ubicacion):
         return self.filtrar_atributo("ubicacion", ubicacion)
     
+    def por_horario(self, horario):
+        return self.filtrar_atributo("horario", horario)
+    
 #Ejemplo de uso:
 
 buscar = Filtros('data/filters.json') #cambiar por el archivo creado por indice
@@ -57,3 +62,4 @@ resultados_genero = buscar.por_genero("Pop")
 resultados_artista = buscar.por_artista("Artista 3")
 
 resultados_ubicacion = buscar.por_ubicacion("Lugar 2")
+

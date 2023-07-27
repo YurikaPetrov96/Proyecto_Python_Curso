@@ -1,7 +1,7 @@
 import json
 
 class Evento:
-    def __init__(self, nombre, artista, genero, ubicacion, horario_ini, horario_fin, descripcion, imagen):
+    def __init__(self, nombre, artista, genero, ubicacion, horario_ini, horario_fin, descripcion, imagen, fecha, provincia):
         self.nombre = nombre
         self.artista = artista
         self.genero = genero
@@ -10,6 +10,8 @@ class Evento:
         self.horario_fin = horario_fin
         self.descripcion = descripcion
         self.imagen = imagen
+        self.fecha = fecha
+        self.provincia = provincia
 
 class Indice:
     def __init__(self, archivo):
@@ -45,7 +47,9 @@ class Indice:
                 print(f"Ubicacion: {evento['ubicacion']}")
                 print(f"Horario de inicio: {evento['horario inicio']}")
                 print(f"Horario de finalizacion: {evento['horario fin']}")
-                print(f"Horario de finalizacion: {evento['descripcion']}")
-                print(f"Horario de finalizacion: {evento['imagen']}")
+                print(f"Descripcion del evento: {evento['descripcion']}")
+                print(f"Imagen : {evento['imagen']}")
+                print(f"Fecha del evento : {evento['fecha']}")
+                print(f"Provincia del evento : {evento['provincia']}")
 
 indice = Indice('basededatos.json')
