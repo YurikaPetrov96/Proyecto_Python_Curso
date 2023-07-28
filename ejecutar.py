@@ -3,7 +3,7 @@ import customtkinter
 
 from gui.logreg import Login_register
 from gui.registro import Registro
-from gui.home import Home, ScrollableRadiobuttonFrame
+from gui.home import Home
 
 pages = {
     "Start_page": Login_register,
@@ -56,30 +56,6 @@ class App(customtkinter.CTk):
         # print(f"Current frame attributes: {vars(new_frame)}")
         # print(f"Stored frames: {self.stored_frames}")
         # print("-" * 30)
-
-
-#agregado
-        self.title("CTkScrollableFrame example")
-        self.grid_rowconfigure(0, weight=1)
-        self.columnconfigure(2, weight=1)
-        
-        self.scrollable_radiobutton_frame = ScrollableRadiobuttonFrame(
-            master=self,
-            width=500,
-            command=self.radiobutton_frame_event,
-            item_list=[f"item {i}" for i in range(100)],
-            label_text="ScrollableRadiobuttonFrame",
-        )
-        #self.scrollable_radiobutton_frame.grid(
-           # row=0, column=1, padx=15, pady=15, sticky="ns"
-        #)
-        self.scrollable_radiobutton_frame.configure(width=200)
-        self.scrollable_radiobutton_frame.remove_item("item 3")
-
-    def radiobutton_frame_event(self):
-        print(
-            f"radiobutton frame modified: {self.scrollable_radiobutton_frame.get_checked_item()}"
-        )
 
 if __name__ == "__main__":
     app = App()
