@@ -75,16 +75,28 @@ class Main_page(customtkinter.CTkFrame):
         pass
        
     def show_search(self):
-        """Para mostrar lo que se requiera en el busacdor"""
+        """Para mostrar lo que se requiera en el buscador"""
         busqueda = self.entry0.get()
         filtro_seleccionado = self.filtro_seleccionado.get()
+        resultados = []
         if filtro_seleccionado:
-            resultados = self.filtros.filtrar_atributo(filtro_seleccionado, busqueda)
-            
+            if filtro_seleccionado == "nombre":
+                resultados = self.filtros.por_nombre(busqueda)
+            elif filtro_seleccionado == "genero":
+                resultados = self.filtros.por_genero(busqueda)
+            elif filtro_seleccionado == "artista":
+                resultados = self.filtros.por_artista(busqueda)
+            elif filtro_seleccionado == "ubicacion":
+                resultados = self.filtros.por_ubicacion(busqueda)
+            elif filtro_seleccionado == "horario":
+                resultados = self.filtros.por_horario(busqueda)
+
             #TextBox Buscador
-            self.textbox_resultados = customtkinter.CTkTextbox(self, width=40, height=10, state="normal")
+            self.textbox_resultados = customtkinter.CTkTextbox(self, width=80, height=80, state="normal")
             self.textbox_resultados.grid(row=2, column=4, columnspan=2, padx=5, pady=5)
-            self.textbox_resultados.insert("0.0", f"{resultados}")
+            self.textbox_resultados.delete('1.0', 'end')
+            for evento in resultados:
+                 self.textbox_resultados.insert('end', str(evento) + "\n")
         
     def show_time(self):
         """Para definir un refrezco de pantalla"""

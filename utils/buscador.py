@@ -13,14 +13,17 @@ class Evento:
         self.fecha = fecha
         self.provincia = provincia
 
+    def __str__(self):
+        return f"Nombre: {self.nombre}\nArtista: {self.artista}\nGénero: {self.genero}\nUbicación: {self.ubicacion}\nHorario de inicio: {self.horario_ini}\nHorario de finalización: {self.horario_fin}\nDescripción: {self.descripcion}\nImagen: {self.imagen}\nFecha: {self.fecha}\nProvincia: {self.provincia}\n"
+
 class Buscador:
     def __init__(self, eventos):
         self.eventos = eventos
 
-    def buscar_clave_valor(self, clave, valor):
+    def buscar_clave_generica(self, clave, valor):
         resultados = []
         for evento in self.eventos:
-            if hasattr(evento, clave) and getattr(evento, clave) == valor:
+            if hasattr(evento, clave) and str(getattr(evento, clave)).lower() == valor.lower():
                 resultados.append(evento)
         return resultados
 
@@ -29,24 +32,24 @@ class Filtros:
         self.eventos = eventos
 
     def por_nombre(self, nombre):
-        return self.filtrar_atributo("nombre", nombre)
+        return self.filtrar_atributo("nombre", nombre.lower())
 
     def por_genero(self, genero):
-        return self.filtrar_atributo("genero", genero)
+        return self.filtrar_atributo("genero", genero.lower())
 
     def por_artista(self, artista):
-        return self.filtrar_atributo("artista", artista)
+        return self.filtrar_atributo("artista", artista.lower())
 
     def por_ubicacion(self, ubicacion):
-        return self.filtrar_atributo("ubicacion", ubicacion)
+        return self.filtrar_atributo("ubicacion", ubicacion.lower())
 
     def por_horario(self, horario_ini):
-        return self.filtrar_atributo("horario_ini", horario_ini)
-
+        return self.filtrar_atributo("horario_ini", horario_ini.lower())
+    
     def filtrar_atributo(self, atributo, valor):
         resultados = []
         for evento in self.eventos:
-            if hasattr(evento, atributo) and getattr(evento, atributo) == valor:
+            if hasattr(evento, atributo) and str(getattr(evento, atributo)).lower() == valor:
                 resultados.append(evento)
         return resultados
     
