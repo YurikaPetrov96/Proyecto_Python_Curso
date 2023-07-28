@@ -1,0 +1,42 @@
+[
+    {
+        "nombre": "Concierto de Paquita la del barrio",
+        "artista": "Paquita",
+        "genero": "pop",
+        "ubicacion": "Balcarce 478",
+        "horario_ini": "17:00",
+        "horario_fin": "20:00",
+        "descripcion": "A cantar a todo pulmon 'Rata de dos patas'",
+        "imagen": "imagen1.jpg",
+        "fecha": "01/08/23",
+        "provincia": "Salta",
+        "indice": 1
+    },
+    {
+        "nombre": "Concierto de Wendy Zulca",
+        "artista": "Wendy Zulca",
+        "genero": "cumbia",
+        "ubicacion": "Zuviria 400",
+        "horario_ini": "21:00",
+        "horario_fin": "23:00",
+        "descripcion": "Wendy nos canta su mas grande exito 'La tetita'",
+        "imagen": "imagen2.jpg",
+        "fecha": "02/08/23",
+        "provincia": "Salta",
+        "indice": 2
+    },
+    {
+        "nombre": "Concierto de La Tigresa del Oriente",
+        "artista": "Tigresa",
+        "genero": "pop",
+        "ubicacion": "Paseo de los poetas",
+        "horario_ini": "22:00",
+        "horario_fin": "00:00",
+        "descripcion": "Vamos todos a rugir con la tigresa!",
+        "imagen": "imagen3.jpg",
+        "fecha": "01/08/23",
+        "provincia": "Salta",
+        "indice": 3
+    }
+]
+    

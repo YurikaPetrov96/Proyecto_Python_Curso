@@ -49,7 +49,7 @@ class Indice:
         else:
             print("Eventos registrados: ")
             for evento in self.eventos:
-                print(f"Evento {evento['indice']}:")
+                print(f"Evento {evento['indice']}")
                 print(f"Nombre: {evento['nombre']}")
                 print(f"Artista: {evento['artista']}")
                 print(f"Genero: {evento['genero']}")
@@ -64,6 +64,36 @@ class Indice:
             self.guardar()
 
 
-archivo_json = "C:/Users/HP/Documents/GitHub/Proyecto_Python_Curso/data/basededatos.json"
+archivo_json = 'data/basededatos.json'
 
 indice = Indice(archivo_json)
+
+while True:
+    print("\n--- Índice de Eventos ---")
+    print("1. Agregar evento")
+    print("2. Mostrar eventos")
+    print("3. Salir")
+
+    opcion = input("Seleccione una opción: ")
+
+    if opcion == "1":
+        nombre = input("Ingrese el nombre del evento: ")
+        artista = input("Ingrese el nombre del artista: ")
+        genero = input("Ingrese el género musical: ")
+        ubicacion = input("Ingrese la ubicación del evento: ")
+        horario_i = input("Ingrese el horario de inicio: ")
+        horario_f = input("Ingrese el horario de finalizacion: ")
+        descripcion = input("Ingrese una descripcion: ")
+        imagen = input("Ingrese la url de la imagen: ")
+        fecha = input("Ingrese la fecha del evento: ")
+        provincia = input("Ingrese la provincia: ")
+
+        evento = Evento(nombre, artista, genero, ubicacion, horario_i, horario_f, descripcion, imagen, fecha, provincia)
+        indice.agregar(evento)
+    elif opcion == "2":
+        indice.mostrar()
+    elif opcion == "3":
+        print("¡Hasta luego!")
+        break
+    else:
+        print("Opción inválida. Por favor, ingresa una opción válida.")
