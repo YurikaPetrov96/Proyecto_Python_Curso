@@ -58,6 +58,8 @@ class Usuario():
             "username": self.username,
             "salt": salt,
             "hashed_password": hashed_password,
+            "apellido": self.apellido,
+            "nombre":self.nombre,
             "email": email
         }
         db.save_data(data, "users.json")
@@ -74,6 +76,12 @@ class Usuario():
                 else:
                     return False  # The password is incorrect.
         return False  # The user was not found in the data.
+    
+    def token_user(self):
+        data = db.load_data("users.json")
+        for user_id, user_data in data.items():
+            if user_data["username"] == self.username:
+                return user_id
 
 
 ## validate user inforamtion before summiting to login or register

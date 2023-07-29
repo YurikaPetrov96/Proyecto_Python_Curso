@@ -30,7 +30,12 @@ class App(customtkinter.CTk):
 
         self.current_frame = None
         self.stored_frames = {}
+        self.user_id = None
         self.switch_frame("Start_page")
+        
+        
+    def user_id_callback(self):
+        self.usuario_id = self.user_id
     
     
 
@@ -49,6 +54,11 @@ class App(customtkinter.CTk):
 
         self.current_frame = new_frame
         self.current_frame.pack(fill="both", expand=True)
+        
+        
+        #callback to user_id in App to get passed into the frame containing another frame.
+        if hasattr(self.current_frame, "set_user_id"):
+            self.current_frame.set_user_id(self.user_id)
         
         # for debugging process:
         # print(f"Switching to {page_name} frame")

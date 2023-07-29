@@ -48,17 +48,25 @@ class Login_register(customtkinter.CTkFrame):
         username = self.username_entry.get().strip()
         password = self.contrasena_entry.get()
         
+        
         try:
             # Si la información es valida, se procedera a registrar al usuario
             
             if Verificacion.username_check1(self, username) is True:
                 
                 authentification_result = Usuario(username, password).autentificar_usuario()
+                id_token= Usuario(username, password).token_user()
+                self.master.user_id = id_token
+                print(self.master.user_id)
                 # si todo funcionó correctamente, veremos un mensaje de Login efectivo y abrira home
                 if authentification_result is True:
                     self.show_good_messages()
+                    self.username_entry.delete(0, customtkinter.END)
+                    self.contrasena_entry.delete(0, customtkinter.END)
+                    
                 else:
                     self.show_failed()
+                    self.master.user_id = None
             else:
                 self.show_user_not_found_msg()
         except InputError as e:
@@ -85,6 +93,7 @@ class Login_register(customtkinter.CTkFrame):
     def go_home_page(self):
         """Function to go to home_page when the login is successfull"""
         self.switch_frame_callback("Home_page")
+        
         
     def go_back(self):
         """Function to go back to start_page"""

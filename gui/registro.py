@@ -78,6 +78,7 @@ class Registro(customtkinter.CTkFrame):
                     return False
                 if pass_check is False:
                     self.Boxes.user_pass_box(self)
+                    self.entry2.delete(0, customtkinter.END)
                     return False
                 if app_check is False:
                     self.Boxes.app_box(self)
@@ -92,11 +93,20 @@ class Registro(customtkinter.CTkFrame):
                     # Si la información es valida, se procedera a registrar al usuario
                     Usuario(username, password, apellido, nombre, email).registrar_usuario()
                     # si todo funcionó correctametne, veremos un mensaje de registro efectivo y volveremos a login.
-                    self.Boxes.show_success_message(self) # muestra un mensaje de registro exitoso.
+                    self.Boxes.show_success_message(self)
+                    self.go_blank()
+                    # muestra un mensaje de registro exitoso.
                     return False
         except InputError as e:
             print(e)
     
+    
+    def go_blank(self):
+        self.entry1.delete(0, customtkinter.END)
+        self.entry2.delete(0, customtkinter.END)
+        self.entry3.delete(0, customtkinter.END)
+        self.entry4.delete(0, customtkinter.END)
+        self.entry5.delete(0, customtkinter.END)
     
     class Boxes(CTkMessagebox):
         def init__(self, switch_frame_callback, *args, **kwargs):
@@ -108,6 +118,7 @@ class Registro(customtkinter.CTkFrame):
             response = msg.get()
             if response =="OK":
                 self.switch_frame_callback("Start_page")
+                
         
         def user_check_box(self):
             msg = CTkMessagebox(title="Username Invalido", message="Ingrese un nombre de usuario mayor o igual a 4 caracteres.", option_1="OK")
