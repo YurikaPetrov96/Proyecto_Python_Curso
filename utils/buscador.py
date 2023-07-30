@@ -20,10 +20,10 @@ class Buscador:
     def __init__(self, eventos):
         self.eventos = eventos
 
-    def buscar_clave_generica(self, clave, valor):
+    def buscar_por_palabra(self, palabra_clave):
         resultados = []
         for evento in self.eventos:
-            if hasattr(evento, clave) and str(getattr(evento, clave)).lower() == valor.lower():
+            if palabra_clave.lower() in str(evento).lower():
                 resultados.append(evento)
         return resultados
 

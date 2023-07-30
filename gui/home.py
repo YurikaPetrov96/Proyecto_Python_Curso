@@ -7,6 +7,7 @@ class Indice_gui(customtkinter.CTkFrame):
         super().__init__(parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback
         from utils.buscador import Buscador, Filtros, cargarjson
+        from utils.indice_carga_eventos import Indice
         
         #configuración de las lineas
         for i in range(0,6):
@@ -17,48 +18,47 @@ class Indice_gui(customtkinter.CTkFrame):
         for i in range(4):
             self.grid_columnconfigure(i, weight=1)
         self.grid_columnconfigure(4, weight= 2)
-        self.grid_columnconfigure(5, weight= 1)
-        self.grid_columnconfigure(6, weight= 0)
+        self.grid_columnconfigure(5, weight= 0)
+        self.grid_columnconfigure(6, weight= 1)
+        self.grid_columnconfigure(7, weight= 0)
         
         #labels
+        placerholder_label = customtkinter.CTkLabel(self, text="")
+        placerholder_label.grid(row=0, column=5, rowspan= 7, sticky="w")
         label0 = customtkinter.CTkLabel(self, text="Buscar:", font=("", 15, "bold"))
-        label0.grid(row=0, column= 4, sticky= "ne")
-        self.label3 = customtkinter.CTkLabel(self, text="", font=("", 12))
-        self.label3.grid(row=3, column=5, columnspan= 2, sticky= "news")
+        label0.grid(row=0, column= 5, sticky= "ne")
         
         #entries
         self.entry0 = customtkinter.CTkEntry(self)
-        self.entry0.grid(row=0, column=5, sticky="nwe", padx=5)
-        
-        
+        self.entry0.grid(row=0, column=6, sticky="nwe", padx=5)
         
         
         #botones
         button1 = customtkinter.CTkButton(self, text="Buscar", command= self.show_search)
-        button1.grid(row=0, column=6, sticky="NE")
+        button1.grid(row=0, column=7, sticky="NE")
 
         #Radio buttons para el filtro
         self.filtro_seleccionado = customtkinter.StringVar()
         radio_btn1 = customtkinter.CTkRadioButton(self, text="Filtro por Nombre", variable=self.filtro_seleccionado, value="nombre")
-        radio_btn1.grid(row=1, column=6, padx=5, pady=5, sticky="w")
+        radio_btn1.grid(row=1, column=7, padx=5, pady=5, sticky="w")
 
         radio_btn2 = customtkinter.CTkRadioButton(self, text="Filtro por Género", variable=self.filtro_seleccionado, value="genero")
-        radio_btn2.grid(row=2, column=6, padx=5, pady=5, sticky="w")
+        radio_btn2.grid(row=2, column=7, padx=5, pady=5, sticky="w")
 
         radio_btn3 = customtkinter.CTkRadioButton(self, text="Filtro por Artista", variable=self.filtro_seleccionado, value="artista")
-        radio_btn3.grid(row=3, column=6, padx=5, pady=5, sticky="w")
+        radio_btn3.grid(row=3, column=7, padx=5, pady=5, sticky="w")
 
         radio_btn4 = customtkinter.CTkRadioButton(self, text="Filtro por Ubicación", variable=self.filtro_seleccionado, value="ubicacion")
-        radio_btn4.grid(row=4, column=6, padx=5, pady=5, sticky="w")
+        radio_btn4.grid(row=4, column=7, padx=5, pady=5, sticky="w")
 
         radio_btn5 = customtkinter.CTkRadioButton(self, text="Filtro por Horario", variable=self.filtro_seleccionado, value="horario")
-        radio_btn5.grid(row=5, column=6, padx=5, pady=5, sticky="w")
+        radio_btn5.grid(row=5, column=7, padx=5, pady=5, sticky="w")
         
         
         #boxes
         self.boxbox1 = customtkinter.CTkTextbox(self, width= 500, corner_radius=0)
         self.boxbox1.configure(state="disabled")
-        self.boxbox1.grid(row=0, column=0, rowspan=7, columnspan=4, padx= 5, pady=5)
+        self.boxbox1.grid(row=0, column=0, rowspan=7, columnspan=4, padx= 5, pady=5, sticky="we")
         
 
         #Cargo archivo json
@@ -70,10 +70,25 @@ class Indice_gui(customtkinter.CTkFrame):
         self.filtros = Filtros(eventos)
 
 
-        ### TextBox
-
-
-
+        # Instancia de Indice
+        self.indice = Indice('data/basededatos.json')
+        eventos = self.indice.carga()
+        
+        # Inicio de agregar las fincionalidades del indice a la aplicacion
+        self.mostrar_eventos()
+    
+    
+    # Muestra los eventos constantemente en el textbox
+    def mostrar_eventos(self):
+        eventos = self.indice.mostrar()
+        self.boxbox1.configure(state="normal")
+        self.boxbox1.delete('1.0', 'end')
+        if eventos:
+            for evento in eventos:
+                self.boxbox1.insert("end", str(evento) + "\n")
+        else:
+            self.boxbox1.insert("end", "No hay eventos registrados.\n")
+        self.boxbox1.configure(state="disabled")
         
         
         
@@ -85,7 +100,9 @@ class Indice_gui(customtkinter.CTkFrame):
         busqueda = self.entry0.get()
         filtro_seleccionado = self.filtro_seleccionado.get()
         resultados = []
-        if filtro_seleccionado:
+        if not filtro_seleccionado:
+            resultados = self.buscador.buscar_por_palabra(busqueda)
+        else:
             if filtro_seleccionado == "nombre":
                 resultados = self.filtros.por_nombre(busqueda)
             elif filtro_seleccionado == "genero":
@@ -97,12 +114,14 @@ class Indice_gui(customtkinter.CTkFrame):
             elif filtro_seleccionado == "horario":
                 resultados = self.filtros.por_horario(busqueda)
 
-            #TextBox Buscador
-            self.boxbox1.configure(state="normal")
-            self.boxbox1.delete('1.0', 'end')
+        #TextBox Buscador
+        self.boxbox1.configure(state="normal")
+        self.boxbox1.delete('1.0', 'end')
+        if resultados:
             for evento in resultados:
-                 self.boxbox1.insert("0.0", str(evento) + "\n")
-            self.boxbox1.configure(state="disabled")
+                self.boxbox1.insert("end", str(evento) + "\n")
+        else:
+            self.boxbox1.insert("end", "No se encontraron resultados\n")
         
         
     def destroy_indice_frame(self):
@@ -116,6 +135,8 @@ class Mapa(customtkinter.CTkFrame):
         self.switch_frame_callback = switch_frame_callback
         self.current_frame = None
         
+        from utils.reviews import Review_frame
+        
         for i in range(5):
             self.grid_columnconfigure(i, weight=1)
             self.grid_rowconfigure(i, weight=1)
@@ -126,6 +147,9 @@ class Mapa(customtkinter.CTkFrame):
         self.grid_rowconfigure(6, weight=0)
             
         print(f"{self.master.user_id}")
+        
+        review_frame = Review_frame(self, switch_frame_callback)
+        review_frame.grid(row=0, column=7, columnspan=2, rowspan=6, sticky="news")
         
     
 
@@ -147,9 +171,9 @@ class Mapa(customtkinter.CTkFrame):
         
         
 
-class Home(customtkinter.CTkScrollableFrame):
+class Home(customtkinter.CTkFrame):
     def __init__(self, parent, switch_frame_callback, *args, **kwargs):
-        customtkinter.CTkScrollableFrame.__init__(self, parent, *args, **kwargs)
+        super().__init__(parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback
         self.current_frame = None
         
@@ -177,9 +201,11 @@ class Home(customtkinter.CTkScrollableFrame):
         placeholder_label.grid(row=1, column= 0, columnspan=4)
         
         
-        #le entrega un valor de user_id al frme actual
+        #le entrega un valor de user_id al frame actual
         self.user_id = None
-
+        
+        ###
+        self.show_frame(Indice_gui)
 
     #actualiza el user_id del frame, al de la ventana maestra.
     def set_user_id(self, user_id):
@@ -194,8 +220,6 @@ class Home(customtkinter.CTkScrollableFrame):
     
     
     def go_main_frame(self):
-        if self.current_frame and isinstance(self.current_frame, Mapa):
-            self.current_frame.destroy()
         self.show_frame(Indice_gui)
         
             
