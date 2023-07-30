@@ -45,12 +45,12 @@ class Indice:
 
     def mostrar(self):
         if len(self.eventos) == 0:
-            return f"No hay eventos registrados."
+            return "No hay eventos registrados."
         else:
-            eventos_indice = []
+            eventos_lista = []
             for evento in self.eventos:
                 evento_dict = {
-                    "indice": evento[int('indice')],
+                    "indice": evento['indice'],
                     "nombre": evento['nombre'],
                     "artista": evento['artista'],
                     "genero": evento['genero'],
@@ -62,39 +62,5 @@ class Indice:
                     "fecha": evento['fecha'],
                     "provincia": evento['provincia']
                 }
-                eventos_indice.append(evento_dict)
-            return eventos_indice
-
-archivo_json = 'data/basededatos.json'
-
-indice = Indice(archivo_json)
-
-# while True:
-#     print("\n--- Índice de Eventos ---")
-#     print("1. Agregar evento")
-#     print("2. Mostrar eventos")
-#     print("3. Salir")
-
-#     opcion = input("Seleccione una opción: ")
-
-#     if opcion == "1":
-#         nombre = input("Ingrese el nombre del evento: ")
-#         artista = input("Ingrese el nombre del artista: ")
-#         genero = input("Ingrese el género musical: ")
-#         ubicacion = input("Ingrese la ubicación del evento: ")
-#         horario_i = input("Ingrese el horario de inicio: ")
-#         horario_f = input("Ingrese el horario de finalizacion: ")
-#         descripcion = input("Ingrese una descripcion: ")
-#         imagen = input("Ingrese la url de la imagen: ")
-#         fecha = input("Ingrese la fecha del evento: ")
-#         provincia = input("Ingrese la provincia: ")
-
-#         evento = Evento(nombre, artista, genero, ubicacion, horario_i, horario_f, descripcion, imagen, fecha, provincia)
-#         indice.agregar(evento)
-#     elif opcion == "2":
-#         indice.mostrar()
-#     elif opcion == "3":
-#         print("¡Hasta luego!")
-#         break
-#     else:
-#         print("Opción inválida. Por favor, ingresa una opción válida.")
+                eventos_lista.append(evento_dict)
+            return eventos_lista
