@@ -37,6 +37,31 @@
         "fecha": "01/08/23",
         "provincia": "Salta",
         "indice": 3
+    },
+    {
+        "nombre": "Show de Metalica",
+        "artista": "Metalica",
+        "genero": "Rock",
+        "ubicacion": "Balcarce 366",
+        "horario_ini": "22:00",
+        "horario_fin": "00:00",
+        "descripcion": "Metalica por primera vez en Salta",
+        "imagen": "imagen4.jpg",
+        "fecha": "04/08/23",
+        "provincia": "Salta",
+        "indice": 4
+    },
+    {
+        "nombre": "Noche de puro folklore",
+        "artista": "Las voces de oran",
+        "genero": "folklore",
+        "ubicacion": "Paseo de los poetas",
+        "horario_ini": "20:30",
+        "horario_fin": "23:30",
+        "descripcion": "Una noche de puro folklore",
+        "imagen": "imagen5.jpg",
+        "fecha": "05/08/23",
+        "provincia": "Salta",
+        "indice": 5
     }
 ]
-    
