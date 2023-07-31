@@ -1,18 +1,18 @@
 import customtkinter
-from CTkMessagebox import CTkMessagebox
 from models.users import db
+from utils.indice_carga_eventos import Evento, Indice
 
 class Indice_gui(customtkinter.CTkFrame):
     def __init__(self, parent, switch_frame_callback, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback
         from utils.buscador import Buscador, Filtros, cargarjson
-        from utils.indice_carga_eventos import Indice
         
         #configuración de las lineas
         for i in range(0,6):
             self.grid_rowconfigure(i, weight=0)
         self.grid_rowconfigure(7, weight=1)
+        self.grid_rowconfigure(8, weight=1)
         
         #configuracion de las columnas
         for i in range(4):
@@ -36,6 +36,9 @@ class Indice_gui(customtkinter.CTkFrame):
         #botones
         button1 = customtkinter.CTkButton(self, text="Buscar", command= self.show_search)
         button1.grid(row=0, column=7, sticky="NE")
+        
+        button2 = customtkinter.CTkButton(self, text="Agregar Evento", command=self.ventana_agregar)
+        button2.grid(row=6, column=7, sticky="NE")
 
         #Radio buttons para el filtro
         self.filtro_seleccionado = customtkinter.StringVar()
@@ -56,9 +59,9 @@ class Indice_gui(customtkinter.CTkFrame):
         
         
         #boxes
-        self.boxbox1 = customtkinter.CTkTextbox(self, width= 500, corner_radius=0)
+        self.boxbox1 = customtkinter.CTkTextbox(self, height=500, corner_radius=0)
         self.boxbox1.configure(state="disabled")
-        self.boxbox1.grid(row=0, column=0, rowspan=7, columnspan=4, padx= 5, pady=5, sticky="we")
+        self.boxbox1.grid(row=0, column=0, rowspan=8, columnspan=4, padx= 5, pady=5, sticky="news")
         
 
         #Cargo archivo json
@@ -80,21 +83,110 @@ class Indice_gui(customtkinter.CTkFrame):
     
     # Muestra los eventos constantemente en el textbox
     def mostrar_eventos(self):
+        # Obtener los eventos desde el índice
         eventos = self.indice.mostrar()
+
+        # Mostrar los eventos en el TextBox1
         self.boxbox1.configure(state="normal")
         self.boxbox1.delete('1.0', 'end')
         if eventos:
             for evento in eventos:
-                self.boxbox1.insert("end", str(evento) + "\n")
+                evento_str = (
+                    f"Evento N°: {evento['indice']}\n"
+                    f"Nombre: {evento['nombre']}\n"
+                    f"Artista: {evento['artista']}\n"
+                    f"Género: {evento['genero']}\n"
+                    f"Ubicación: {evento['ubicacion']}\n"
+                    f"Horario de inicio: {evento['horario_ini']}\n"
+                    f"Horario de finalización: {evento['horario_fin']}\n"
+                    f"Descripción: {evento['descripcion']}\n"
+                    f"Imagen: {evento['imagen']}\n"
+                    f"Fecha: {evento['fecha']}\n"
+                    f"Provincia: {evento['provincia']}\n\n"
+                )
+                self.boxbox1.insert("end", evento_str)
         else:
             self.boxbox1.insert("end", "No hay eventos registrados.\n")
         self.boxbox1.configure(state="disabled")
         
+    def ventana_agregar(self):
+        # Crea una nueva ventana TopLevel para agregar evento
+        self.ventana_agregar = customtkinter.CTkToplevel(self)
+        self.ventana_agregar.title("Agregar Evento")
+        self.ventana_agregar.resizable(False, False)
+
+        # Label y entry de la ventana top level
+        label_nombre = customtkinter.CTkLabel(self.ventana_agregar, text="Nombre del evento:")
+        label_nombre.grid(row=0, column=0, padx=5, pady=5)
+        self.entry_nombre = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_nombre.grid(row=0, column=1, padx=5, pady=5)
+
+        label_artista = customtkinter.CTkLabel(self.ventana_agregar, text="Nombre del artista:")
+        label_artista.grid(row=2, column=0, padx=5, pady=5)
+        self.entry_artista = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_artista.grid(row=2, column=1, padx=5, pady=5)
+
+        label_genero = customtkinter.CTkLabel(self.ventana_agregar, text="Genero musical:")
+        label_genero.grid(row=3, column=0, padx=5, pady=5)
+        self.entry_genero = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_genero.grid(row=3, column=1, padx=5, pady=5)
+
+        label_ubicacion = customtkinter.CTkLabel(self.ventana_agregar, text="Ubicaccion del evento:")
+        label_ubicacion.grid(row=4, column=0, padx=5, pady=5)
+        self.entry_ubicacion = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_ubicacion.grid(row=4, column=1, padx=5, pady=5)
+
+        label_horario_ini = customtkinter.CTkLabel(self.ventana_agregar, text="Horario de inicio:")
+        label_horario_ini.grid(row=5, column=0, padx=5, pady=5)
+        self.entry_horario_ini = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_horario_ini.grid(row=5, column=1, padx=5, pady=5)
+
+        label_horario_fin = customtkinter.CTkLabel(self.ventana_agregar, text="Horario de finalizacion:")
+        label_horario_fin.grid(row=6, column=0, padx=5, pady=5)
+        self.entry_horario_fin = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_horario_fin.grid(row=6, column=1, padx=5, pady=5)
+
+        label_descripcion = customtkinter.CTkLabel(self.ventana_agregar, text="Descripcion del evento:")
+        label_descripcion.grid(row=7, column=0, padx=5, pady=5)
+        self.entry_descripcion = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_descripcion.grid(row=7, column=1, padx=5, pady=5)
+
+        label_imagen = customtkinter.CTkLabel(self.ventana_agregar, text="Imagen del evento:")
+        label_imagen.grid(row=8, column=0, padx=5, pady=5)
+        self.entry_imagen = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_imagen.grid(row=8, column=1, padx=5, pady=5)
+
+        label_fecha = customtkinter.CTkLabel(self.ventana_agregar, text="Fecha del evento:")
+        label_fecha.grid(row=9, column=0, padx=5, pady=5)
+        self.entry_fecha = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_fecha.grid(row=9, column=1, padx=5, pady=5)
+
+        label_provincia = customtkinter.CTkLabel(self.ventana_agregar, text="Provincia del evento:")
+        label_provincia.grid(row=10, column=0, padx=5, pady=5)
+        self.entry_provincia = customtkinter.CTkEntry(self.ventana_agregar)
+        self.entry_provincia.grid(row=10, column=1, padx=5, pady=5)
         
-        
-    def show_history():
-        pass
-       
+         # Botón guardar de la ventana top level
+        boton_guardar = customtkinter.CTkButton(self.ventana_agregar, text="Guardar", command=self.guardar_evento)
+        boton_guardar.grid(row=11, column=0, padx=5, pady=5)
+
+    def guardar_evento(self):
+        nombre = self.entry_nombre.get()
+        artista = self.entry_artista.get()
+        genero = self.entry_genero.get()
+        ubicacion = self.entry_ubicacion.get()
+        horario_ini = self.entry_horario_ini.get()
+        horario_fin = self.entry_horario_fin.get()
+        descripcion = self.entry_descripcion.get()
+        imagen = self.entry_imagen.get()
+        fecha = self.entry_fecha.get()
+        provincia = self.entry_provincia.get()
+
+        nuevo_evento = Evento(nombre, artista, genero, ubicacion, horario_ini, horario_fin, descripcion, imagen, fecha, provincia)
+        self.indice.agregar(nuevo_evento)
+        self.ventana_agregar.destroy()
+    
+
     def show_search(self):
         """Para mostrar lo que se requiera en el buscador"""
         busqueda = self.entry0.get()
@@ -122,12 +214,7 @@ class Indice_gui(customtkinter.CTkFrame):
                 self.boxbox1.insert("end", str(evento) + "\n")
         else:
             self.boxbox1.insert("end", "No se encontraron resultados\n")
-        
-        
-    def destroy_indice_frame(self):
-        # Clear the contents of the frame
-        for widget in self.winfo_children():
-            widget.destroy()    
+          
         
 class Mapa(customtkinter.CTkFrame):
     def __init__(self, parent, switch_frame_callback, *args, **kwargs):
@@ -135,6 +222,7 @@ class Mapa(customtkinter.CTkFrame):
         self.switch_frame_callback = switch_frame_callback
         self.current_frame = None
         
+        from gui.mapa import Mapa
         from utils.reviews import Review_frame
         
         for i in range(5):
@@ -147,6 +235,9 @@ class Mapa(customtkinter.CTkFrame):
         self.grid_rowconfigure(6, weight=0)
             
         print(f"{self.master.user_id}")
+        
+        mapa_frame = Mapa(self, switch_frame_callback)
+        mapa_frame.grid(row=0, column=0, rowspan=5, columnspan=5, sticky="news")
         
         review_frame = Review_frame(self, switch_frame_callback)
         review_frame.grid(row=0, column=7, columnspan=2, rowspan=6, sticky="news")
@@ -190,9 +281,9 @@ class Home(customtkinter.CTkFrame):
         #labels
         
         #botones
-        button1 = customtkinter.CTkButton(self, text="Pagina Principal", font=("ROBOTO", 14), command= self.go_main_frame)
+        button1 = customtkinter.CTkButton(self, text="Pagina Principal", command= self.go_main_frame)
         button1.grid(row=0, column= 1, sticky ="ne", padx=5, ipadx=20)
-        button2 = customtkinter.CTkButton(self, text="Mapa y Reviews", font=("ROBOTO", 14), command= self.go_map)
+        button2 = customtkinter.CTkButton(self, text="Mapa y Reviews", command= self.go_map)
         button2.grid(row=0, column= 2, sticky="n", padx=5, ipadx=20)
         log_out_button = customtkinter.CTkButton(self, text="Cerrar Sesion", command= self.cerrar_sesion)
         log_out_button.grid(row=0, column= 4, sticky = "ne")

@@ -7,7 +7,7 @@
         "horario_ini": "17:00",
         "horario_fin": "20:00",
         "descripcion": "A cantar a todo pulmon 'Rata de dos patas'",
-        "imagen": "imagen1.jpg",
+        "imagen": "src/image1.jpg",
         "fecha": "01/08/23",
         "provincia": "Salta",
         "indice": 1
@@ -20,7 +20,7 @@
         "horario_ini": "21:00",
         "horario_fin": "23:00",
         "descripcion": "Wendy nos canta su mas grande exito 'La tetita'",
-        "imagen": "imagen2.jpg",
+        "imagen": "src/image2.jpg",
         "fecha": "02/08/23",
         "provincia": "Salta",
         "indice": 2
@@ -33,10 +33,48 @@
         "horario_ini": "22:00",
         "horario_fin": "00:00",
         "descripcion": "Vamos todos a rugir con la tigresa!",
-        "imagen": "imagen3.jpg",
+        "imagen": "src/image3.jpg",
         "fecha": "01/08/23",
         "provincia": "Salta",
         "indice": 3
+    },
+    {
+        "nombre": "Show de Metalica",
+        "artista": "Metalica",
+        "genero": "Rock",
+        "ubicacion": "Balcarce 366",
+        "horario_ini": "22:00",
+        "horario_fin": "00:00",
+        "descripcion": "Metalica por primera vez en Salta",
+        "imagen": "src/image4.jpg",
+        "fecha": "04/08/23",
+        "provincia": "Salta",
+        "indice": 4
+    },
+    {
+        "nombre": "Noche de puro folklore",
+        "artista": "Las voces de oran",
+        "genero": "folklore",
+        "ubicacion": "Paseo de los poetas",
+        "horario_ini": "20:30",
+        "horario_fin": "23:30",
+        "descripcion": "Una noche de puro folklore",
+        "imagen": "src/image5.jpg",
+        "fecha": "05/08/23",
+        "provincia": "Salta",
+        "indice": 5
+    },
+    {
+        "nombre": "Musica del Recuerdo",
+        "artista": "Varios",
+        "genero": "80's",
+        "ubicacion": "La ROka",
+        "horario_ini": "20:00",
+        "horario_fin": "02:00",
+        "descripcion": "Musica para la gente grande.",
+        "imagen": "src/image6.jpg",
+        "fecha": "20/08/23",
+        "provincia": "Salta",
+        "indice": 6
     }
 ]
-    
