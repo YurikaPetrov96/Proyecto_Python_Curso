@@ -1,5 +1,4 @@
 import customtkinter
-from CTkMessagebox import CTkMessagebox
 from models.users import db
 from utils.Indice_carga_eventos import Evento, Indice
 
@@ -109,8 +108,8 @@ class Indice_gui(customtkinter.CTkFrame):
             self.boxbox1.insert("end", "No hay eventos registrados.\n")
         self.boxbox1.configure(state="disabled")
 
+    # Crea una nueva ventana TopLevel para agregar evento
     def ventana_agregar(self):
-        # Crea una nueva ventana TopLevel para agregar evento
         self.ventana_agregar = customtkinter.CTkToplevel(self)
         self.ventana_agregar.title("Agregar Evento")
         self.ventana_agregar.resizable(False, False)
@@ -191,8 +190,11 @@ class Indice_gui(customtkinter.CTkFrame):
     
     def show_search(self):
         """Para mostrar lo que se requiera en el buscador"""
-        busqueda = self.entry0.get()
+        busqueda = self.entry0.get().strip()
         filtro_seleccionado = self.filtro_seleccionado.get()
+        if not busqueda and not filtro_seleccionado:
+            self.mostrar_eventos()
+            return
         resultados = []
         if not filtro_seleccionado:
             resultados = self.buscador.buscar_por_palabra(busqueda)
@@ -216,6 +218,7 @@ class Indice_gui(customtkinter.CTkFrame):
                 self.boxbox1.insert("end", str(evento) + "\n")
         else:
             self.boxbox1.insert("end", "No se encontraron resultados\n")
+        self.boxbox1.configure(state="disabled")
 
     
     def destroy_indice_frame(self):
