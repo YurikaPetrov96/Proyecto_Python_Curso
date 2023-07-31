@@ -119,10 +119,7 @@ def info_evento():
         tkinter.messagebox.showinfo(title=str(global_market), message=texto+". Se encuentra en "+direccion+" Comienza a las: "+hora+
                                      "Se pueden contactar para reservas al "+telefono+" -->Comentarios de Usuarios<-- "+comentarios
                                      )
-   
-   
-       
-
+ 
 def click_usuario(marker):
    # Click mouse izq. Marca un evento y desmarca un evento mostrando Imagen
     print("marker clicked:", marker.text)
@@ -142,6 +139,7 @@ def click_usuario(marker):
     #marker.text_color="green"
     #marker.set_text("nombreUsauario")
     #marker.marker_color_circle="green"
+    root_tk.after(1000,click_usuario)
    
 """
 def marker_callback(marker):
@@ -262,7 +260,7 @@ for key in diccionario:
 map_widget.set_position(pos1,pos2)  # Salta Usuario
 map_widget.set_zoom(16)
 
-#-------------------------------------BOTTOM MOUSE----------------------------------------------
+#-------------------------------------BOTON MOUSE----------------------------------------------
 def add_ruta_event(coords):
     print("Add Ruta:", coords)
     marcapos.append(coords)
