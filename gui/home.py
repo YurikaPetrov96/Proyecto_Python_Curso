@@ -86,28 +86,28 @@ class Indice_gui(customtkinter.CTkFrame):
 
         # Mostrar los eventos
         if eventos:
-            row = 0  # Start from row 1 (since row 0 has the image_label)
+            row = 0
             self.event_frames = []
             main_frame = customtkinter.CTkScrollableFrame(self, height= 800)
             main_frame.grid(row=1, rowspan=7, column=0, columnspan=5, sticky="news")
             
             for evento in eventos:
-                # Create a frame to hold the image and text
+                # creamos un frame que integra dentro de si los frame labels.
                 
                 event_frame = customtkinter.CTkFrame(main_frame)
                 event_frame.grid(row=row, column=0, sticky="NEWS")
 
-                # Load the image for the event
+                # Cargamos la imagen del evento
                 imagen_evento = evento['imagen']
 
-                # Convert the image to PhotoImage (required for CTkLabel)
+                # Convertimos a la imagen en PhotoImage
                 image_evento_ctk = customtkinter.CTkImage(dark_image=Image.open(imagen_evento), size=(100, 200))
 
-                # Create the label for the image
+                # Creamos el label para las imagenes
                 image_label = customtkinter.CTkLabel(event_frame, image=image_evento_ctk, text="")
                 image_label.grid(row=0, column=0, padx=10, pady=10)
 
-                # Update the event details in the label text
+                # Actualizamos los detalles de los eventos
                 evento_text = (
                     f"Evento N°: {evento['indice']}\n"
                     f"Nombre: {evento['nombre']}\n"
@@ -121,7 +121,7 @@ class Indice_gui(customtkinter.CTkFrame):
                     f"Provincia: {evento['provincia']}\n"
                 )
 
-                # Create the label for the text
+                # creamos el Label para el texto.
                 text_label = customtkinter.CTkLabel(event_frame, text=evento_text, anchor="w")
                 text_label.grid(row=0, column=1, padx=10, pady=10, sticky="W")
 
@@ -132,7 +132,7 @@ class Indice_gui(customtkinter.CTkFrame):
                 
     def show_search(self):
         """Para mostrar lo que se requiera en el buscador"""
-        # Destroy the main_frame that displays all events
+        # destruimos el main_frame
 
         busqueda = self.entry0.get()
         filtro_seleccionado = self.filtro_seleccionado.get()
@@ -152,7 +152,7 @@ class Indice_gui(customtkinter.CTkFrame):
             elif filtro_seleccionado == "horario":
                 resultados = self.filtros.por_horario(busqueda)
 
-        # Show the search results
+        # Muestra los resultados de la busqueda.
         for i, event_frame in enumerate(self.event_frames):
             if i < len(resultados):
                 event_frame.grid()
