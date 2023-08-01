@@ -26,27 +26,29 @@ class Frame1(ctk.CTkScrollableFrame):
         
         
     def mostrar_eventos(self):
-        # Obtener los eventos desde el índice
+    # Obtener los eventos desde el índice
         eventos = self.indice.mostrar()
 
         # Mostrar los eventos
         if eventos:
             row = 0  # Start from row 1 (since row 0 has the image_label)
             for evento in eventos:
+                # Create a frame to hold the image and text
+                event_frame = tk.Frame(self, bg="#000000")
+                event_frame.grid(row=row, column=0, sticky="NEWS")
+
                 # Load the image for the event
-                imagen_evento = (evento['imagen'])
+                imagen_evento = evento['imagen']
 
                 # Convert the image to PhotoImage (required for CTkLabel)
-                image_evento_ctk = ctk.CTkImage(dark_image=Image.open(imagen_evento),
-                                                size=(100,200))
+                image_evento_ctk = ctk.CTkImage(dark_image=Image.open(imagen_evento), size=(100, 200))
 
-                # Create the label for the event
-                evento_label = ctk.CTkLabel(self, image=image_evento_ctk, text="Hola mundo")
-                evento_label.grid(row=row, column=0)
-                
+                # Create the label for the image
+                image_label = ctk.CTkLabel(event_frame, image=image_evento_ctk, bg_color="transparent", fg_color="transparent")
+                image_label.grid(row=0, column=0, padx=10, pady=10)
 
                 # Update the event details in the label text
-                evento_label.setvar(
+                evento_text = (
                     f"Evento N°: {evento['indice']}\n"
                     f"Nombre: {evento['nombre']}\n"
                     f"Artista: {evento['artista']}\n"
@@ -56,10 +58,14 @@ class Frame1(ctk.CTkScrollableFrame):
                     f"Horario de finalización: {evento['horario_fin']}\n"
                     f"Descripción: {evento['descripcion']}\n"
                     f"Fecha: {evento['fecha']}\n"
-                    f"Provincia: {evento['provincia']}\n\n"
+                    f"Provincia: {evento['provincia']}\n"
                 )
 
-                row += 1  # Move to the next row for the next event
+                # Create the label for the text
+                text_label = ctk.CTkLabel(event_frame, text=evento_text, bg_color="transparent", fg_color="transparent", text_color="green", anchor="w")
+                text_label.grid(row=0, column=1, padx=10, pady=10, sticky="W")
+
+                row += 1
 
 
 

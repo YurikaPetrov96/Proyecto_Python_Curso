@@ -22,6 +22,8 @@ class Indice_gui(customtkinter.CTkFrame):
         self.grid_columnconfigure(6, weight= 1)
         self.grid_columnconfigure(7, weight= 0)
         
+        self.event_frames = []
+        
         #labels
         placerholder_label = customtkinter.CTkLabel(self, text="")
         placerholder_label.grid(row=0, column=5, rowspan= 7, sticky="w")
@@ -58,11 +60,6 @@ class Indice_gui(customtkinter.CTkFrame):
         radio_btn5.grid(row=5, column=7, padx=5, pady=5, sticky="w")
         
         
-        #boxes
-        self.boxbox1 = customtkinter.CTkTextbox(self, height=500, corner_radius=0)
-        self.boxbox1.configure(state="disabled")
-        self.boxbox1.grid(row=0, column=0, rowspan=8, columnspan=4, padx= 5, pady=5, sticky="news")
-        
 
         #Cargo archivo json
         ruta_archivo_json = 'data/basededatos.json'
@@ -83,15 +80,35 @@ class Indice_gui(customtkinter.CTkFrame):
     
     # Muestra los eventos constantemente en el textbox
     def mostrar_eventos(self):
-        # Obtener los eventos desde el índice
+    # Obtener los eventos desde el índice
+        from PIL import Image
         eventos = self.indice.mostrar()
 
-        # Mostrar los eventos en el TextBox1
-        self.boxbox1.configure(state="normal")
-        self.boxbox1.delete('1.0', 'end')
+        # Mostrar los eventos
         if eventos:
+            row = 0  # Start from row 1 (since row 0 has the image_label)
+            self.event_frames = []
+            main_frame = customtkinter.CTkScrollableFrame(self, height= 800)
+            main_frame.grid(row=1, rowspan=7, column=0, columnspan=5, sticky="news")
+            
             for evento in eventos:
-                evento_str = (
+                # Create a frame to hold the image and text
+                
+                event_frame = customtkinter.CTkFrame(main_frame)
+                event_frame.grid(row=row, column=0, sticky="NEWS")
+
+                # Load the image for the event
+                imagen_evento = evento['imagen']
+
+                # Convert the image to PhotoImage (required for CTkLabel)
+                image_evento_ctk = customtkinter.CTkImage(dark_image=Image.open(imagen_evento), size=(100, 200))
+
+                # Create the label for the image
+                image_label = customtkinter.CTkLabel(event_frame, image=image_evento_ctk, text="")
+                image_label.grid(row=0, column=0, padx=10, pady=10)
+
+                # Update the event details in the label text
+                evento_text = (
                     f"Evento N°: {evento['indice']}\n"
                     f"Nombre: {evento['nombre']}\n"
                     f"Artista: {evento['artista']}\n"
@@ -100,20 +117,55 @@ class Indice_gui(customtkinter.CTkFrame):
                     f"Horario de inicio: {evento['horario_ini']}\n"
                     f"Horario de finalización: {evento['horario_fin']}\n"
                     f"Descripción: {evento['descripcion']}\n"
-                    f"Imagen: {evento['imagen']}\n"
                     f"Fecha: {evento['fecha']}\n"
-                    f"Provincia: {evento['provincia']}\n\n"
+                    f"Provincia: {evento['provincia']}\n"
                 )
-                self.boxbox1.insert("end", evento_str)
+
+                # Create the label for the text
+                text_label = customtkinter.CTkLabel(event_frame, text=evento_text, anchor="w")
+                text_label.grid(row=0, column=1, padx=10, pady=10, sticky="W")
+
+                row += 1
+                self.event_frames.append(event_frame)
+        
+                
+                
+    def show_search(self):
+        """Para mostrar lo que se requiera en el buscador"""
+        # Destroy the main_frame that displays all events
+
+        busqueda = self.entry0.get()
+        filtro_seleccionado = self.filtro_seleccionado.get()
+        resultados = []
+        if not filtro_seleccionado:
+            resultados = self.buscador.buscar_por_palabra(busqueda)
+            self.mostrar_eventos()
         else:
-            self.boxbox1.insert("end", "No hay eventos registrados.\n")
-        self.boxbox1.configure(state="disabled")
+            if filtro_seleccionado == "nombre":
+                resultados = self.filtros.por_nombre(busqueda)
+            elif filtro_seleccionado == "genero":
+                resultados = self.filtros.por_genero(busqueda)
+            elif filtro_seleccionado == "artista":
+                resultados = self.filtros.por_artista(busqueda)
+            elif filtro_seleccionado == "ubicacion":
+                resultados = self.filtros.por_ubicacion(busqueda)
+            elif filtro_seleccionado == "horario":
+                resultados = self.filtros.por_horario(busqueda)
+
+        # Show the search results
+        for i, event_frame in enumerate(self.event_frames):
+            if i < len(resultados):
+                event_frame.grid()
+            else:
+                event_frame.grid_remove()
+          
         
     def ventana_agregar(self):
         # Crea una nueva ventana TopLevel para agregar evento
         self.ventana_agregar = customtkinter.CTkToplevel(self)
         self.ventana_agregar.title("Agregar Evento")
         self.ventana_agregar.resizable(False, False)
+        
 
         # Label y entry de la ventana top level
         label_nombre = customtkinter.CTkLabel(self.ventana_agregar, text="Nombre del evento:")
@@ -187,34 +239,7 @@ class Indice_gui(customtkinter.CTkFrame):
         self.ventana_agregar.destroy()
     
 
-    def show_search(self):
-        """Para mostrar lo que se requiera en el buscador"""
-        busqueda = self.entry0.get()
-        filtro_seleccionado = self.filtro_seleccionado.get()
-        resultados = []
-        if not filtro_seleccionado:
-            resultados = self.buscador.buscar_por_palabra(busqueda)
-        else:
-            if filtro_seleccionado == "nombre":
-                resultados = self.filtros.por_nombre(busqueda)
-            elif filtro_seleccionado == "genero":
-                resultados = self.filtros.por_genero(busqueda)
-            elif filtro_seleccionado == "artista":
-                resultados = self.filtros.por_artista(busqueda)
-            elif filtro_seleccionado == "ubicacion":
-                resultados = self.filtros.por_ubicacion(busqueda)
-            elif filtro_seleccionado == "horario":
-                resultados = self.filtros.por_horario(busqueda)
-
-        #TextBox Buscador
-        self.boxbox1.configure(state="normal")
-        self.boxbox1.delete('1.0', 'end')
-        if resultados:
-            for evento in resultados:
-                self.boxbox1.insert("end", str(evento) + "\n")
-        else:
-            self.boxbox1.insert("end", "No se encontraron resultados\n")
-          
+    
         
 class Mapa(customtkinter.CTkFrame):
     def __init__(self, parent, switch_frame_callback, *args, **kwargs):
