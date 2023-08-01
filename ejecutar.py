@@ -1,6 +1,6 @@
 
 import customtkinter
-
+import os
 from gui.logreg import Login_register
 from gui.registro import Registro
 from gui.home import Home

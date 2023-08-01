@@ -7,38 +7,43 @@ import random
 from PIL import Image, ImageTk
 from tkintermapview import TkinterMapView
 from datetime import datetime
+from models.users import db
 
 class Mapa(ctk.CTkFrame):
     def __init__(self, parent, switch_frame_callback, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback
 
-        # WIDTH = 800
-        # EIGHT = 600
+        self.markers = {}
+        self.list_text = []
+        self.global_market =""
         
 
-        # self.title(App.APP_NAME)
-        # self.geometry(str(App.WIDTH) + "x" + str(App.HEIGHT))
-        # self.minsize(App.WIDTH, App.HEIGHT)
-
-        # self.protocol("WM_DELETE_WINDOW", self.on_closing)
-        # self.bind("<Command-q>", self.on_closing)
-        # self.bind("<Command-w>", self.on_closing)
-        # self.createcommand('tk::mac::Quit', self.on_closing)
-
         self.marker_list = []
+        self.user_id = None
         
         # ============ create two CTkFrames ============
 
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(3, weight=0)
+        self.grid_columnconfigure(4, weight=0)
+        self.grid_columnconfigure(5,weight=0)
         self.grid_rowconfigure(0, weight=1)
 
-        frame_left = Frame_left(self, switch_frame_callback, fg_color=None)
-        frame_left.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
+        self.frame_left = Frame_left(self, switch_frame_callback, fg_color=None)
+        self.frame_left.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
 
-        frame_right = Frame_right(self, switch_frame_callback, corner_radius=0)
-        frame_right.grid(row=0, column=1, rowspan=1, pady=0, padx=0, sticky="nsew")
+        self.frame_right = Frame_right(self, switch_frame_callback, corner_radius=0)
+        self.frame_right.grid(row=0, column=1, columnspan=2, pady=0, padx=0, sticky="nsew")
+        
+        self.frame_review = Review_frame(self, switch_frame_callback)
+        self.frame_review.grid(row=0, column=3, columnspan=3, pady=0, padx=0, sticky="news")
+        
+    def set_user_id(self, user_id):
+        self.user_id = self.master.user_id
+        print(self.user_id)
 
 
 
@@ -50,6 +55,8 @@ class Frame_left(ctk.CTkFrame):
         self.markers = {}
         self.list_text = []
         self.global_market =""
+        
+        self.marker_list = []
 
         # ============ frame_left ============
 
@@ -60,12 +67,12 @@ class Frame_left(ctk.CTkFrame):
 
         self.button_1 = ctk.CTkButton(master=self,
                                                 text="Agregar",
-                                                command = lambda: Frame_right.set_option("Si"))
+                                                command = lambda: self.agregar)
         self.button_1.grid(pady=(5, 0), padx=(20, 20), row=1, column=0)
 
         self.button_2 = ctk.CTkButton(master=self,
                                                 text="Borrar",
-                                                command = lambda: Frame_right.set_option("No"))
+                                                command = lambda: self.borrar)
         self.button_2.grid(pady=(5, 0), padx=(20, 20), row=2, column=0)
         
         self.listbox = tk.Listbox(master=self, selectforeground = "#ffffff",
@@ -91,40 +98,72 @@ class Frame_left(ctk.CTkFrame):
         
         self.button_6 = ctk.CTkButton(master=self,
                                                 text="Dibujar",
-                                                command = Frame_right.createRutEvent)
+                                                command = self.create_rut_event_selected)
         self.button_6.grid(pady=(5, 0), padx=(20, 20), row=5, column=0)
 
         self.button_7 = ctk.CTkButton(master=self,
                                                 text="Borrar",
-                                                command = Frame_right.delRuta)
+                                                command = self.del_rut_event_selected)
         self.button_7.grid(pady=(5, 0), padx=(20, 20), row=6, column=0)
 
         self.button_3 = ctk.CTkButton(master=self,
                                                 text="Guardar",
-                                                command=Frame_right.guardar_RutaVisita)
+                                                command=self.save_rut_event)
         self.button_3.grid(pady=(20, 0), padx=(20, 20), row=7, column=0)
 
         self.map_label = ctk.CTkLabel(self, text="Modos:", anchor="w")
         self.map_label.grid(row=9, column=0, padx=(20, 20), pady=(20, 0))
 
         self.map_option_menu = ctk.CTkOptionMenu(self, values=["OpenStreetMap", "Google normal", "Google satellite"],
-                                                                       command=Frame_right.change_map)
+                                                                       command= self.on_map_option_selected)
         self.map_option_menu.grid(row=10, column=0, padx=(20, 20), pady=(10, 0))
 
-        self.appearance_mode_optionemenu = ctk.CTkOptionMenu(self, values=["Light", "Dark", "System"],
-                                                                       command=Frame_right.change_appearance_mode)
-        self.appearance_mode_optionemenu.grid(row=11, column=0, padx=(20, 20), pady=(10, 20))
+        # self.appearance_mode_optionemenu = ctk.CTkOptionMenu(self, values=["Light", "Dark", "System"],
+        #                                                                command=Frame_right.change_appearance_mode)
+        # self.appearance_mode_optionemenu.grid(row=11, column=0, padx=(20, 20), pady=(10, 20))
+        
+    def agregar(self):
+        self.master.frame_right.set_option("Si")
+    
+    def borrar(self):
+        self.master.frame_right.set_option("No")
+        
+    def create_rut_event_selected(self):
+        self.master.frame_right.createRutEvent()
+        
+    def del_rut_event_selected(self):
+        self.master.frame_right.delRuta()
+        
+    def save_rut_event(self):
+        self.master.frame_right.guardar_RutaVisita()
+        
+        
+    def on_map_option_selected(self, selected_map):
+        # Call the change_map method in the right frame with the selected_map value
+        self.master.frame_right.change_map(selected_map)
 
-        # ============ frame_right ============
+
+###############
+def get_image_path(image_filename):
+        # Get the absolute path to the "src" folder
+        src_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        # Combine the "src" folder path with the "images" folder and the provided image filename
+        image_path = os.path.join(src_folder, "src", image_filename)
+        return image_path
+#########
+
+# ============ frame_right ============
         
 class Frame_right(ctk.CTkFrame):
     def __init__(self, parent, switch_frame_callback, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.switch_frame_callback = switch_frame_callback
         
+        
         self.markers = {}
         self.list_text = []
-        self.global_market =""
+        self.global_market = ""
+        self.marker_list = []
 
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
@@ -140,7 +179,7 @@ class Frame_right(ctk.CTkFrame):
         #self.entry.grid(row=0, column=0, sticky="we", padx=(12, 0), pady=12)
         #self.entry.bind("<Return>", self.search_event)
        
-        self.labelEvent = ctk.CTkLabel(self, text = "", anchor = "w", 
+        self.labelEvent = ctk.CTkLabel(self, text = "", anchor = "w", text_color="black",
                                        fg_color = "#ffffff", justify = "center", compound= "center")
         self.labelEvent.grid(row = 0, column = 0, sticky = "we", padx=(12, 0), pady = 12)
 
@@ -156,24 +195,17 @@ class Frame_right(ctk.CTkFrame):
                                                 command=self.review)
         self.button_9.grid(row = 0, column = 2, sticky = "w", padx = (12, 0), pady = 12)
         
-        self.radio_var = tk.IntVar(value=0)
-        self.radio_1 = ctk.CTkRadioButton(master=self, text="★", text_color="yellow", border_color= "yellow",command=self.radio_event, variable=self.radio_var, value=1)
-        self.radio_2 = ctk.CTkRadioButton(master=self, text="★★",text_color="yellow",border_color= "yellow", command=self.radio_event, variable=self.radio_var, value=2)
-        self.radio_3 = ctk.CTkRadioButton(master=self, text="★★★",text_color="yellow",border_color= "yellow", command=self.radio_event, variable=self.radio_var, value=3)        
-        self.radio_1.grid(row = 0, column = 3, sticky = "w", padx = (12, 0), pady = 12)
-        self.radio_2.grid(row = 0, column = 4, sticky = "w", padx = (12, 0), pady = 12)
-        self.radio_3.grid(row = 0, column = 5, sticky = "w", padx = (12, 0), pady = 12)
         # ==================== Set Usuario ======================
         pos1 = -24.7868489
         pos2 = -65.4120303
         self.nombreUsuario = "Facundo Ovejero"
         
-        usuario_image = ctk.CTkImage(dark_image=Image.open("src/usuario1.jpg"),
-                                     size=(100,100))
+        image_path = get_image_path("usuario1.jpg")
+        usuario_image = ImageTk.PhotoImage(Image.open(image_path).resize((100, 100)))
         # usuario_image = ImageTk.PhotoImage(Image.open(os.path.join(os.path.dirname(os.path.relpath(__file__)),
         #                                                     "src", "usuario1.jpg")).resize((100, 100)))
         
-        #usuario_icono = ImageTk.PhotoImage(Image.open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"images", "usuario1.jpg")).resize((35, 35)))
+        #usuario_icono = ImageTk.PhotoImage(Image.open(image_path).resize((35, 35)))
         
         self.marker_0 = self.map_widget.set_marker(pos1, pos2, text = self.nombreUsuario, image = usuario_image,
                                                     image_zoom_visibility = (14, float("inf"))
@@ -225,10 +257,8 @@ class Frame_right(ctk.CTkFrame):
             positions1 = self.diccionario[key]["position"][0]
             positions2 = self.diccionario[key]["position"][1]
             texts = self.diccionario[key]["text"] + self.diccionario[key]["calificacion"]
-            # evento_images[key] = ImageTk.PhotoImage(Image.open(os.path.join(os.path.dirname(os.path.relpath(__file__)),
-            #                                                                 "images", image_name)).resize((250,200)))
-            evento_images[key] = ctk.CTkImage(dark_image=Image.open(f"src/{image_name}"),
-                                     size=(250,200))
+            image_path = get_image_path(image_name)
+            evento_images[key] = ImageTk.PhotoImage(Image.open(image_path).resize((100, 100)))
             self.markers[key] = self.map_widget.set_marker(positions1,positions2, text=texts, image=evento_images[key],
                                         image_zoom_visibility=(0, float("inf")), command=self.click_usuario)
             self.markers[key].hide_image(True)  
@@ -285,8 +315,8 @@ class Frame_right(ctk.CTkFrame):
             positions1 = self.diccionario[key]["position"][0]
             positions2 = self.diccionario[key]["position"][1]
             texts = self.diccionario[key]["text"] + self.diccionario[key]["calificacion"]
-            evento_images[key] = ctk.CTkImage(dark_image=Image.open(f"src/{image_name}"),
-                                     size=(250,200))
+            image_path = get_image_path(image_name)
+            evento_images[key] = ImageTk.PhotoImage(Image.open(image_path).resize((100, 100)))
             # evento_images[key] = ImageTk.PhotoImage(Image.open(os.path.join(os.path.dirname(os.path.relpath(__file__)),
             #                                                                 "src", image_name)).resize((250,200)))
             self.markers[key] = self.map_widget.set_marker(positions1,positions2, text=texts, image=evento_images[key],
@@ -339,7 +369,7 @@ class Frame_right(ctk.CTkFrame):
             print(self.global_market)
             self.list_text.append(self.global_market)
             print(self.list_text) 
-            self.listbox.insert(tk.END, self.global_market)
+            Frame_left.listbox.insert(tk.END, self.global_market)
 
             for k, v in self.diccionario.items():
 
@@ -354,7 +384,7 @@ class Frame_right(ctk.CTkFrame):
             print("Borrado")
             self.list_text.remove(self.global_market)
             print(self.list_text)
-            self.listbox.delete(self.listbox.get(0, tk.END).index(self.global_market))
+            Frame_left.listbox.delete(self.listbox.get(0, tk.END).index(self.global_market))
 
         option = ""
 
@@ -367,7 +397,6 @@ class Frame_right(ctk.CTkFrame):
         #global global_market 
         if len(self.global_market) == 0:
             return
-        self.crear_evento()
 
  
         print(self.global_market)
@@ -471,8 +500,8 @@ class Frame_right(ctk.CTkFrame):
         for marker in self.marker_list:
             marker.delete()
 
-    def change_appearance_mode(self, new_appearance_mode: str):
-        ctk.set_appearance_mode(new_appearance_mode)
+    # def change_appearance_mode(self, new_appearance_mode: str):
+    #     ctk.set_appearance_mode(new_appearance_mode)
 
     def change_map(self, new_map: str):
         if new_map == "OpenStreetMap":
@@ -541,13 +570,17 @@ class Frame_right(ctk.CTkFrame):
         print("Guardando ruta en Json")    
         tk.messagebox.showinfo(title = "Guardar", message= " Se Guardaron las rutas de los eventos seleccionados.  "+txt)
         self.list_text=[]
-        self.listbox.delete(0, "end")     
+        Frame_left.listbox.delete(0, "end")     
         self.marcaPos = []
         self.marcaPos += (self.marker_0.position,)
         self.map_widget.delete_all_path()   
+        
 
-    # def on_closing(self, event=0):
-    #     self.destroy()
+##### frame review
 
-    # def start(self):
-    #     self.mainloop()
+class Review_frame(ctk.CTkFrame):
+    def __init__(self, parent, switch_frame_callback, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.switch_frame_callback = switch_frame_callback
+        
+        

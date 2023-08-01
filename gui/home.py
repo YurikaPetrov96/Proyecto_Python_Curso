@@ -229,36 +229,9 @@ class Mapa(customtkinter.CTkFrame):
             self.grid_columnconfigure(i, weight=1)
             self.grid_rowconfigure(i, weight=1)
             
-        self.grid_columnconfigure(6, weight=0)
-        self.grid_columnconfigure(7, weight=0)
-        self.grid_columnconfigure(8, weight=0)
-        self.grid_rowconfigure(6, weight=0)
-            
-        print(f"{self.master.user_id}")
-        
         mapa_frame = Mapa(self, switch_frame_callback)
         mapa_frame.grid(row=0, column=0, rowspan=5, columnspan=5, sticky="news")
         
-        review_frame = Review_frame(self, switch_frame_callback)
-        review_frame.grid(row=0, column=7, columnspan=2, rowspan=6, sticky="news")
-        
-    
-
-
-        
-        
-        
-    def reviews_view(self):
-        data = db.load_data("users.json")
-        user_token = str(self.master.user_id)
-        for user_id, user_data in data.items():
-            if user_id == user_token:
-                apellido = user_data["apellido"]
-                nombre = user_data["nombre"]
-                return f"Este review fue realizado por {user_id, apellido, nombre}"
-        # Return a default message if no match is found
-        return "Este usuario no tiene reviews o no existe en la base de datos."
-    
         
         
 
@@ -300,7 +273,8 @@ class Home(customtkinter.CTkFrame):
 
     #actualiza el user_id del frame, al de la ventana maestra.
     def set_user_id(self, user_id):
-        self.user_id = user_id
+        self.user_id = self.master.user_id
+        print(self.user_id)
 
         
     def show_frame(self, frame_class):
