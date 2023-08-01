@@ -25,9 +25,9 @@ class Login_register(customtkinter.CTkFrame):
         #labels
         bienvenida_label = customtkinter.CTkLabel(self, text= "Inicie Sesion o Registrese: ", font=("Roboto",16))
         bienvenida_label.grid(row=0, column=1, columnspan=2, padx=5, pady=5, sticky="s")
-        username_label = customtkinter.CTkLabel(self, text= "Usuario:", font=("Roboto",14))
+        username_label = customtkinter.CTkLabel(self, text= "Usuario:")
         username_label.grid(row=1, column=1, padx=5, pady=5, sticky="e")
-        contrasena_label = customtkinter.CTkLabel(self, text= "Contraseña:", font=("Roboto",14))
+        contrasena_label = customtkinter.CTkLabel(self, text= "Contraseña:")
         contrasena_label.grid(row=2, column=1, padx=5, pady=5, sticky="e")
         
         #entries
@@ -38,9 +38,9 @@ class Login_register(customtkinter.CTkFrame):
         
         #botones
         
-        registro_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: parent.switch_frame("Registry_page"), font=("Roboto",14))
+        registro_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: parent.switch_frame("Registry_page"))
         registro_button.grid(row=3, column=1, padx=5, pady=5, sticky="ne")
-        authenticate_button = customtkinter.CTkButton(self, text="Iniciar Sesion", command=self.validacion_log, font=("Roboto",14))
+        authenticate_button = customtkinter.CTkButton(self, text="Iniciar Sesion", command=self.validacion_log)
         authenticate_button.grid(row=3, column=2, padx=5, pady=5, sticky="nw")
         
     
@@ -48,17 +48,25 @@ class Login_register(customtkinter.CTkFrame):
         username = self.username_entry.get().strip()
         password = self.contrasena_entry.get()
         
+        
         try:
             # Si la información es valida, se procedera a registrar al usuario
             
             if Verificacion.username_check1(self, username) is True:
                 
                 authentification_result = Usuario(username, password).autentificar_usuario()
+                id_token= Usuario(username, password).token_user()
+                self.master.user_id = id_token
+                print(self.master.user_id)
                 # si todo funcionó correctamente, veremos un mensaje de Login efectivo y abrira home
                 if authentification_result is True:
                     self.show_good_messages()
+                    self.username_entry.delete(0, customtkinter.END)
+                    self.contrasena_entry.delete(0, customtkinter.END)
+                    
                 else:
                     self.show_failed()
+                    self.master.user_id = None
             else:
                 self.show_user_not_found_msg()
         except InputError as e:
@@ -85,6 +93,7 @@ class Login_register(customtkinter.CTkFrame):
     def go_home_page(self):
         """Function to go to home_page when the login is successfull"""
         self.switch_frame_callback("Home_page")
+        
         
     def go_back(self):
         """Function to go back to start_page"""

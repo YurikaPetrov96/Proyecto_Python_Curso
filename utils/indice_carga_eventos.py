@@ -1,7 +1,9 @@
 import json
 
+
+
 class Evento:
-    def __init__(self, nombre, artista, genero, ubicacion, horario_ini, horario_fin, descripcion, imagen):
+    def __init__(self, nombre, artista, genero, ubicacion, horario_ini, horario_fin, descripcion, imagen, fecha, provincia):
         self.nombre = nombre
         self.artista = artista
         self.genero = genero
@@ -10,6 +12,9 @@ class Evento:
         self.horario_fin = horario_fin
         self.descripcion = descripcion
         self.imagen = imagen
+        self.fecha = fecha
+        self.provincia = provincia
+
 
 class Indice:
     def __init__(self, archivo):
@@ -23,29 +28,39 @@ class Indice:
         except FileNotFoundError:
             eventos = []
         return eventos
-    
+
     def guardar(self):
         with open(self.archivo, 'w') as f:
             json.dump(self.eventos, f, indent=4)
 
     def agregar(self, evento):
-        self.eventos.append(evento.__dict__)
+        if not self.eventos:
+            self.eventos = []
+
+        indice = len(self.eventos) + 1
+        evento_dict = evento.__dict__
+        evento_dict['indice'] = indice
+        self.eventos.append(evento_dict)
         self.guardar()
 
     def mostrar(self):
         if len(self.eventos) == 0:
-            print("No hay eventos registrados")
+            return "No hay eventos registrados."
         else:
-            print("Eventos regitrados: ")
-            for index, evento in enumerate(self.eventos, start = 1):
-                print(f"Evento {index}:")
-                print(f"Nombre: {evento['nombre']}")
-                print(f"Artista: {evento['artista']}")
-                print(f"Genero: {evento['genero']}")
-                print(f"Ubicacion: {evento['ubicacion']}")
-                print(f"Horario de inicio: {evento['horario inicio']}")
-                print(f"Horario de finalizacion: {evento['horario fin']}")
-                print(f"Horario de finalizacion: {evento['descripcion']}")
-                print(f"Horario de finalizacion: {evento['imagen']}")
-
-indice = Indice('basededatos.json')
+            eventos_lista = []
+            for evento in self.eventos:
+                evento_dict = {
+                    "indice": evento['indice'],
+                    "nombre": evento['nombre'],
+                    "artista": evento['artista'],
+                    "genero": evento['genero'],
+                    "ubicacion": evento['ubicacion'],
+                    "horario_ini": evento['horario_ini'],
+                    "horario_fin": evento['horario_fin'],
+                    "descripcion": evento['descripcion'],
+                    "imagen": evento['imagen'],
+                    "fecha": evento['fecha'],
+                    "provincia": evento['provincia']
+                }
+                eventos_lista.append(evento_dict)
+            return eventos_lista
