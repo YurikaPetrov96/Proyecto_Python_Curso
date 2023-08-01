@@ -1,29 +1,34 @@
 import json
 import hashlib
+import os
 import re
 
 
 class db():
     """access to database"""
     @staticmethod
-    def save_data(data):
-        current_data = db.load_data()
+    def save_data(data, file_name, folder_path="data/"):
+        file_path = os.path.join(folder_path, file_name)
+        current_data = db.load_data(file_path)
         current_data.update(data)
-        with open("data/users.json", "w", encoding="utf-8") as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             json.dump(data, file)
     
     @staticmethod
-    def load_data():
+    def load_data(file_name, folder_path="data/"):
+        file_path = os.path.join(folder_path, file_name)
         try:
-            with open("data/users.json", "r", encoding="utf-8") as file:
+            with open(file_path, "r", encoding="utf-8") as file:
                 return json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             return {}
 
 class Usuario():
-    def __init__(self, username, password, email=None):
+    def __init__(self, username, password, apellido= None, nombre=None, email=None):
         self.username = username
         self.password = password
+        self.apellido = apellido
+        self.nombre = nombre
         self.email = email
         self.user_id = Usuario.generate_user_id()
     
@@ -35,12 +40,12 @@ class Usuario():
     
     @classmethod
     def generate_user_id(cls): #generamos el user id.
-        data = db.load_data() #caragamos la base de datos
+        data = db.load_data("users.json") #caragamos la base de datos
         if data:
             max_user_id = max(map(int, data.keys())) #si en la db hay una key numeral la pasamos a int para realizarle una suma.
             return str(max_user_id + 1)
         else:
-            return "1"#si no existe data usamos esto.
+            return "1" #si no existe data usamos esto.
             
     def registrar_usuario(self):
         if self.email is None:
@@ -48,19 +53,21 @@ class Usuario():
         salt = "random_salt"
         hashed_password = Usuario.hash_password(self.password, salt)
         email = self.email
-        data = db.load_data()
+        data = db.load_data("users.json")
         data[str(self.user_id)] = {
             "username": self.username,
             "salt": salt,
             "hashed_password": hashed_password,
+            "apellido": self.apellido,
+            "nombre":self.nombre,
             "email": email
         }
-        db.save_data(data)
+        db.save_data(data, "users.json")
         print("Datos Guardados")
         
         
     def autentificar_usuario(self):
-        data = db.load_data()  # Load data before performing authentication
+        data = db.load_data("users.json")  # Load data before performing authentication
         for user_id, user_data in data.items():
             if user_data["username"] == self.username:
                 hashed_password = Usuario.hash_password(self.password, user_data["salt"])
@@ -69,6 +76,12 @@ class Usuario():
                 else:
                     return False  # The password is incorrect.
         return False  # The user was not found in the data.
+    
+    def token_user(self):
+        data = db.load_data("users.json")
+        for user_id, user_data in data.items():
+            if user_data["username"] == self.username:
+                return user_id
 
 
 ## validate user inforamtion before summiting to login or register
@@ -85,7 +98,7 @@ class Verificacion():
     
     def username_check1(self, username):
         try:
-            data = db.load_data()
+            data = db.load_data("users.json")
             for user_id, user_data in data.items():
                 if username == user_data["username"]:
                     return True
@@ -110,6 +123,26 @@ class Verificacion():
                 return True
             else:
                 return False
+        except ValueError:
+            print("Se ingresaron caracteres incorrectos.")
+            
+    def apellido_check(self, apellido):
+        """chequeo del apellido"""
+        try:
+            if apellido == None:
+                return False
+            else:
+                return True
+        except ValueError:
+            print("Se ingresaron caracteres incorrectos.")
+    
+    def nombre_check(self, nombre):
+        """chequeo de nombre"""
+        try:
+            if nombre == None:
+                return False
+            else:
+                return True
         except ValueError:
             print("Se ingresaron caracteres incorrectos.")
                 
