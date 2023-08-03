@@ -164,8 +164,7 @@ class Indice_gui(customtkinter.CTkFrame):
         busqueda = self.entry0.get()
         filtro_seleccionado = self.filtro_seleccionado.get()
         if not busqueda and not filtro_seleccionado:
-            self.limpiar_resultados()
-            self.mostrar_eventos()
+            return self.mostrar_eventos()
         else:
             resultados = []
             if not filtro_seleccionado:
@@ -176,18 +175,18 @@ class Indice_gui(customtkinter.CTkFrame):
                 elif filtro_seleccionado == "genero":
                     resultados = self.filtros.por_genero(busqueda)
                 elif filtro_seleccionado == "artista":
-                    resultados = self.filtros.por_artista(busqueda)  # Se quita el argumento eventos
+                    resultados = self.filtros.por_artista(busqueda)
                 elif filtro_seleccionado == "ubicacion":
                     resultados = self.filtros.por_ubicacion(busqueda)
                 elif filtro_seleccionado == "horario":
                     resultados = self.filtros.por_horario(busqueda)
-
-            self.limpiar_resultados()
             self.crear_resultados_frame()
+            cont = 1
             for evento in resultados:
-                evento_str = str(evento)  # Convertir el objeto Evento a una cadena de texto
+                evento_str = str(evento)
                 label_evento = customtkinter.CTkLabel(self.resultados_frame, text=evento_str, anchor="w")
-                label_evento.grid(row=1, column=0, sticky="NEWS")
+                label_evento.grid(row=cont, column=0, sticky="NEWS")
+                cont += 1
 
 
         
