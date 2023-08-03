@@ -73,9 +73,6 @@ class Login_register(customtkinter.CTkFrame):
             print(e)
             
     def show_good_messages(self):
-        msg = CTkMessagebox(title="Exito.", message="Iniciaste sesion exitosamente.", icon = "check", option_1="OK")
-        response = msg.get()
-        if response =="OK":
             self.go_home_page()
     
     def show_failed(self):

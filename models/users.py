@@ -22,6 +22,18 @@ class db():
                 return json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             return {}
+        
+    @staticmethod
+    def load_data_from_eventos(file_name, folder_path="data/"):
+        file_path = os.path.join(folder_path, file_name)
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                event_data = json.load(file)
+                for event in event_data:
+                    event["indice"] = int(event["indice"])  # Convert indice to integer
+                return event_data
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []
 
 class Usuario():
     def __init__(self, username, password, apellido= None, nombre=None, email=None):
