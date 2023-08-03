@@ -88,20 +88,20 @@ class Login_register(customtkinter.CTkFrame):
             self.go_back()
     
     def go_home_page(self):
-        """Funcion para volver a la pagina Home, osea Indice"""
+        """Metodo para volver a la pagina Home, osea Indice"""
         self.switch_frame_callback("Home_page")
         
         
     def go_back(self):
-        """Function para ir al frame Start_page donde nos logeamos."""
+        """Metodo para ir al frame Start_page donde nos logeamos."""
         self.switch_frame_callback("Start_page")
             
             
 class InputError(Exception):
-    """Raised when user input is incorrect
+    """Elevamos este error cuando lo ingresado por el usuario es incorrecto.
     Attributes:
-        expr -- input expression in which the error occurred
-        msg  -- explanation of the error
+        expr -- Mencionamos parte del codigo donde sucedió el error.
+        msg  -- Explicacion del error
     """
     def __init__(self, msg):
         super().__init__(msg)

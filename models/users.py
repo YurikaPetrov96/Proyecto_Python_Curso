@@ -5,7 +5,7 @@ import re
 
 
 class db():
-    """access to database"""
+    """Accedemos al a base de datos (json.)"""
     @staticmethod
     def save_data(data, file_name, folder_path="data/"):
         file_path = os.path.join(folder_path, file_name)
@@ -30,7 +30,7 @@ class db():
             with open(file_path, "r", encoding="utf-8") as file:
                 event_data = json.load(file)
                 for event in event_data:
-                    event["indice"] = int(event["indice"])  # Convert indice to integer
+                    event["indice"] = int(event["indice"])
                 return event_data
         except (FileNotFoundError, json.JSONDecodeError):
             return []
@@ -79,15 +79,15 @@ class Usuario():
         
         
     def autentificar_usuario(self):
-        data = db.load_data("users.json")  # Load data before performing authentication
+        data = db.load_data("users.json")  # Cargamos antes de realizar una verificación.
         for user_id, user_data in data.items():
             if user_data["username"] == self.username:
                 hashed_password = Usuario.hash_password(self.password, user_data["salt"])
                 if hashed_password == user_data["hashed_password"]:
                     return True
                 else:
-                    return False  # The password is incorrect.
-        return False  # The user was not found in the data.
+                    return False  # la contraseña es incorrecta
+        return False  # El usuario no fue encontrado en los datos.
     
     def token_user(self):
         data = db.load_data("users.json")
@@ -96,7 +96,7 @@ class Usuario():
                 return user_id
 
 
-## validate user inforamtion before summiting to login or register
+## Validamos los datos de los usuarios
 
 def has_numbers(foo):
     return any(char.isdigit() for char in foo)
@@ -168,10 +168,10 @@ class Verificacion():
             print("Se ingresaron caracteres incorrectos.")
 
 class InputError(Exception):
-    """Raised when user input is incorrect
+    """Elevamos este error cuando lo ingresado por el usuario es incorrecto.
     Attributes:
-        expr -- input expression in which the error occurred
-        msg  -- explanation of the error
+        expr -- Mencionamos parte del codigo donde sucedió el error.
+        msg  -- Explicacion del error
     """
     def __init__(self, msg):
         pass

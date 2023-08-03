@@ -157,10 +157,10 @@ class Registro(customtkinter.CTkFrame):
                 msg.destroy()   
             
 class InputError(Exception):
-    """Raised when user input is incorrect
+    """Elevamos este error cuando lo ingresado por el usuario es incorrecto.
     Attributes:
-        expr -- input expression in which the error occurred
-        msg  -- explanation of the error
+        expr -- Mencionamos parte del codigo donde sucedió el error.
+        msg  -- Explicacion del error
     """
     def __init__(self, msg):
         super().__init__(msg)

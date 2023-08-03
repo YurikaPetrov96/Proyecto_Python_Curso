@@ -37,13 +37,27 @@
         ]
     ],
     "4": [
+        [
+            {
+                "id_usuario": "1",
+                "nombre de usuario": "yuripetrov",
+                "nombre": "2023-08-03T12:29:02.030566",
+                "destinos": [
+                    "marker_1",
+                    "marker_3"
+                ]
+            }
+        ]
+    ],
+    "5": [
         {
             "id_usuario": "1",
             "nombre de usuario": "yuripetrov",
-            "nombre": "2023-08-03T12:29:02.030566",
+            "nombre": "2023-08-03T14:10:30.265059",
             "destinos": [
                 "marker_1",
-                "marker_3"
+                "marker_3",
+                "marker_4"
             ]
         }
     ]

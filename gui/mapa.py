@@ -771,7 +771,7 @@ class Review_gen(ctk.CTkFrame):
         
         
         if self.id_evento is None:
-            # If the selected event is not found, show an error message
+            # Si el evento seleccionado no existe, o hay un error, informamos sobre ello.
             tk.messagebox.showerror("Error", "Por favor seleccione un evento.")
             return
 
@@ -814,7 +814,7 @@ class Review_gen(ctk.CTkFrame):
             reviews = {}
         
 
-        # Store the new review using the id_review as the key
+        # Guardamos la review utilizando el id_review como la llave (key).
         reviews[self.id_review] = nuevo_review
             
         
@@ -836,16 +836,16 @@ class Review_gen(ctk.CTkFrame):
          
 
     def generar_review_id(self):
-        # Load reviews data from the JSON database
+        # Cargamos la información de reviews.json
         data = db.load_data("reviews.json")
 
-        # Find the maximum review ID in the existing data
+        # Buscamos el maximo ID en la información cargada
         max_review_id = 0
         if data:
             for review_id in data.keys():
                 max_review_id = max(max_review_id, int(review_id))
 
-        # Increment the max_review_id by 1 to generate a new review ID
+        # Incrementamos el ID +1 para poder asignarle un id al review nuevo.
         new_review_id = max_review_id + 1
         return str(new_review_id)
         
