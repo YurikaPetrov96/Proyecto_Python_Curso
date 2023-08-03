@@ -23,15 +23,15 @@ class Registro(customtkinter.CTkFrame):
         #labels
         label0 = customtkinter.CTkLabel(self, text="Por favor ingrese los datos del formulario: ", font=("Roboto",16))
         label0.grid(row=0, column=1, columnspan=2, padx=5, pady= 5, sticky="s")
-        label1 = customtkinter.CTkLabel(self, text="Nombre de Usuario:", font=("Roboto",14))
+        label1 = customtkinter.CTkLabel(self, text="Nombre de Usuario:")
         label1.grid(row=1, column=1, padx=5, pady=5, sticky= "e", ipadx=17)
-        label2 = customtkinter.CTkLabel(self, text="Contraseña:", font=("Roboto",14))
+        label2 = customtkinter.CTkLabel(self, text="Contraseña:")
         label2.grid(row=2, column=1, padx=5, pady=5, sticky="ne", ipadx=17)
-        label3 = customtkinter.CTkLabel(self, text="Apellido:", font=("Roboto",14))
+        label3 = customtkinter.CTkLabel(self, text="Apellido:")
         label3.grid(row=3, column=1, padx=5, pady=5, sticky="ne", ipadx=17)
-        label4 = customtkinter.CTkLabel(self, text="Primer Nombre:", font=("Roboto",14))
+        label4 = customtkinter.CTkLabel(self, text="Primer Nombre:")
         label4.grid(row=4, column=1, padx=5, pady=5, sticky="ne", ipadx=17)
-        label5 = customtkinter.CTkLabel(self, text="Correo Electronico:", font=("Roboto",14))
+        label5 = customtkinter.CTkLabel(self, text="Correo Electronico:")
         label5.grid(row=5, column=1, padx=5, pady=5, sticky="ne", ipadx=17)
         
         #entries
@@ -47,9 +47,9 @@ class Registro(customtkinter.CTkFrame):
         self.entry5.grid(row=5, column=2, padx=5, pady=5, sticky="nw")
         
         #botones
-        final_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: self.verificar_registro(), font=("Roboto",14))
+        final_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: self.verificar_registro())
         final_button.grid(row=6, column=1, padx=1, pady=1, sticky="ne", ipadx=4)
-        cancel_button = customtkinter.CTkButton(self, text="Cancerlar", command=lambda: self.switch_frame_callback("Start_page"), font=("Roboto",14))
+        cancel_button = customtkinter.CTkButton(self, text="Cancerlar", command=lambda: self.switch_frame_callback("Start_page"))
         cancel_button.grid(row=6, column=2, padx=1, pady=1, sticky="nw", ipadx=3)
         
     def verificar_registro(self):

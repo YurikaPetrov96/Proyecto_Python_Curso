@@ -25,9 +25,9 @@ class Login_register(customtkinter.CTkFrame):
         #labels
         bienvenida_label = customtkinter.CTkLabel(self, text= "Inicie Sesion o Registrese: ", font=("Roboto",16))
         bienvenida_label.grid(row=0, column=1, columnspan=2, padx=5, pady=5, sticky="s")
-        username_label = customtkinter.CTkLabel(self, text= "Usuario:", font=("Roboto",14))
+        username_label = customtkinter.CTkLabel(self, text= "Usuario:")
         username_label.grid(row=1, column=1, padx=5, pady=5, sticky="e")
-        contrasena_label = customtkinter.CTkLabel(self, text= "Contraseña:", font=("Roboto",14))
+        contrasena_label = customtkinter.CTkLabel(self, text= "Contraseña:")
         contrasena_label.grid(row=2, column=1, padx=5, pady=5, sticky="e")
         
         #entries
@@ -38,9 +38,9 @@ class Login_register(customtkinter.CTkFrame):
         
         #botones
         
-        registro_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: parent.switch_frame("Registry_page"), font=("Roboto",14))
+        registro_button = customtkinter.CTkButton(self, text="Registrarse", command=lambda: parent.switch_frame("Registry_page"))
         registro_button.grid(row=3, column=1, padx=5, pady=5, sticky="ne")
-        authenticate_button = customtkinter.CTkButton(self, text="Iniciar Sesion", command=self.validacion_log, font=("Roboto",14))
+        authenticate_button = customtkinter.CTkButton(self, text="Iniciar Sesion", command=self.validacion_log)
         authenticate_button.grid(row=3, column=2, padx=5, pady=5, sticky="nw")
         
     

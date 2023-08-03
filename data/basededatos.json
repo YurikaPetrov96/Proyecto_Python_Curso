@@ -1,57 +1,58 @@
 [
     {
+        "indice": 1,
         "nombre": "Music Festival",
-        "artista": "Varios",
+        "artista": "Soda Stereo",
         "genero": "pop",
         "ubicacion": "Balcarce 478",
         "horario_ini": "17:00",
         "horario_fin": "20:00",
         "descripcion": "Disfruta de una tarde con los artistas del momento.",
-        "imagen": "imagen1.jpg",
+        "imagen": "src/image3.jpg",
         "fecha": "01/08/23",
-        "provincia": "Salta",
-        "indice": 1
+        "provincia": "Salta"
     },
     {
+        "indice": 2,
         "nombre": "Music Nostalgia",
         "artista": "Varios",
         "genero": "80's",
         "ubicacion": "Zuviria 400",
         "horario_ini": "21:00",
         "horario_fin": "23:00",
-        "descripcion": "Vamos a recordar viejos tiempos con la mejor musica de los a\u00c3\u00b1os 80.",
-        "imagen": "imagen2.jpg",
+        "descripcion": "Vamos a recordar viejos tiempos con la mejor musica de los 80.",
+        "imagen": "src/image4.jpg",
         "fecha": "02/08/23",
-        "provincia": "Salta",
-        "indice": 2
+        "provincia": "Salta"
     },
     {
+        "indice": 3,
         "nombre": "Music Folklore",
-        "artista": "Varios",
+        "artista": "El Chaqueño Palavecino",
         "genero": "folklore",
         "ubicacion": "Paseo de los poetas",
         "horario_ini": "22:00",
         "horario_fin": "00:00",
         "descripcion": "Una noche de serenata al sonido de bombos y guitarras",
-        "imagen": "imagen3.jpg",
+        "imagen": "src/image6.jpg",
         "fecha": "01/08/23",
-        "provincia": "Salta",
-        "indice": 3
+        "provincia": "Salta"
     },
     {
-        "nombre": "Concierto de DJ Gloria",
-        "artista": "Gloria",
+        "indice": 4,
+        "nombre": "Concierto de DJ Glori",
+        "artista": "Glori",
         "genero": "Electronica",
         "ubicacion": "Balcarce 366",
         "horario_ini": "00:00",
         "horario_fin": "04:00",
         "descripcion": "Dj Gloria por primera vez en Salta",
-        "imagen": "imagen4.jpg",
+        "imagen": "src/image7.jpg",
         "fecha": "04/08/23",
-        "provincia": "Salta",
-        "indice": 4
+        "provincia": "Salta"
     },
     {
+        "indice": 5,
         "nombre": "Charanga Habanera Music Show",
         "artista": "La Charanga Habanera",
         "genero": "Salsa",
@@ -59,9 +60,21 @@
         "horario_ini": "20:30",
         "horario_fin": "23:30",
         "descripcion": "Desde Cuba por primera vez en la ciudad",
-        "imagen": "imagen5.jpg",
+        "imagen": "src/image8.jpg",
         "fecha": "05/08/23",
-        "provincia": "Salta",
-        "indice": 5
+        "provincia": "Salta"
+    },
+    {
+        "indice": 6,
+        "nombre": "Noche de piano",
+        "artista": "Orquesta Sinfonica",
+        "genero": "clasica",
+        "ubicacion": "Teatro Municipal",
+        "horario_ini": "21:30",
+        "horario_fin": "23:00",
+        "descripcion": "Una noche de musica clasica al sonido del piano",
+        "imagen": "src/image10.jpg",
+        "fecha": "11/11/23",
+        "provincia": "Salta"
     }
 ]
