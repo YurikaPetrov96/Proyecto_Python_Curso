@@ -73,9 +73,6 @@ class Login_register(customtkinter.CTkFrame):
             print(e)
             
     def show_good_messages(self):
-        msg = CTkMessagebox(title="Exito.", message="Iniciaste sesion exitosamente.", icon = "check", option_1="OK")
-        response = msg.get()
-        if response =="OK":
             self.go_home_page()
     
     def show_failed(self):
@@ -91,12 +88,12 @@ class Login_register(customtkinter.CTkFrame):
             self.go_back()
     
     def go_home_page(self):
-        """Function to go to home_page when the login is successfull"""
+        """Funcion para volver a la pagina Home, osea Indice"""
         self.switch_frame_callback("Home_page")
         
         
     def go_back(self):
-        """Function to go back to start_page"""
+        """Function para ir al frame Start_page donde nos logeamos."""
         self.switch_frame_callback("Start_page")
             
             

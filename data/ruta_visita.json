@@ -1,0 +1,50 @@
+{
+    "1": [
+        [
+            {
+                "id_usuario": 1,
+                "nombre": "2023-08-02T00:05:19.123951",
+                "destinos": [
+                    "marker_3",
+                    "marker_2"
+                ]
+            }
+        ]
+    ],
+    "2": [
+        [
+            {
+                "id_usuario": 1,
+                "nombre": "2023-08-02T00:05:38.248079",
+                "destinos": [
+                    "marker_1",
+                    "marker_3"
+                ]
+            }
+        ]
+    ],
+    "3": [
+        [
+            {
+                "id_usuario": "yuripetrov",
+                "nombre": "2023-08-02T00:36:34.222660",
+                "destinos": [
+                    "marker_2",
+                    "marker_3",
+                    "marker_12"
+                ]
+            }
+        ]
+    ],
+    "4": [
+        {
+            "id_usuario": "1",
+            "nombre de usuario": "yuripetrov",
+            "nombre": "2023-08-03T12:29:02.030566",
+            "destinos": [
+                "marker_1",
+                "marker_3"
+            ]
+        }
+    ]
+}

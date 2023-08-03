@@ -47,7 +47,7 @@ class App(customtkinter.CTk):
             new_frame = cls(parent=self, switch_frame_callback=self.switch_frame)
             self.stored_frames[page_name] = new_frame
         else:
-            new_frame.update()  # Call an update method if you have one in your customtkinter classes
+            new_frame.update()  # hacemos una llamada a un metodo Update para poder refrescar los frames.
 
         if self.current_frame is not None:
             self.current_frame.pack_forget()
@@ -56,7 +56,7 @@ class App(customtkinter.CTk):
         self.current_frame.pack(fill="both", expand=True)
         
         
-        #callback to user_id in App to get passed into the frame containing another frame.
+        # hacemos un llamado al user_id ingresado al momento de ingresar el usuario.
         if hasattr(self.current_frame, "set_user_id"):
             self.current_frame.set_user_id(self.user_id)
         
