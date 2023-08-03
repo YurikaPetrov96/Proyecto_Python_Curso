@@ -1,1 +1,1 @@
-{"1": {"id_evento": 1, "nombre_evento": "Music Festival", "id_usuario": "1", "apellido_nombre": "Petrov Yuri", "calificacion": 5, "comentario": "Me gusto mucho", "animo": "Feliz"}}
+{"1": {"id_evento": 1, "nombre_evento": "Music Festival", "id_usuario": "1", "apellido_nombre": "Petrov Yuri", "calificacion": 5, "comentario": "Me gusto mucho", "animo": "Feliz"}, "2": {"id_evento": 3, "nombre_evento": "Music Folklore", "id_usuario": "1", "apellido_nombre": "Petrov Yuri", "calificacion": 5, "comentario": "Me encanto", "animo": "Feliz"}}
